@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }} - Details{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ book.title }}</h2>
+    <h4>By {{ book.author }}</h4>
+    <p>{{ book.description }}</p>
+    <a href="{% url 'books:index' %}" class="btn btn-secondary">Back to list</a>
+</div>
+{% endblock %}

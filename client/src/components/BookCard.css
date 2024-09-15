@@ -1,0 +1,57 @@
+.book-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start; /* Left alignment */
+  gap: 16px; /* Adds space between cards */
+  padding: 16px;
+}
+
+.book-card {
+  background-image: url('');
+  background-position: center;
+  background-size: cover;
+  background-attachment: fixed; /* To achieve parallax-like effect */
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  transition: transform 0.3s ease-in-out, background-position 0.5s ease-in-out;
+}
+
+.book-card:hover {
+  transform: scale(1.05) rotateX(10deg) rotateY(10deg);
+  background-position: bottom; /* Move the background image on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+.book-cover {
+  width: 100%;
+  height: auto;
+  max-height: 300px; /* Adjust as needed */
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* .book-card:hover .book-cover {
+  transform: scale(1.1); /* Zoom effect on cover image */
+
+
+.book-details {
+  text-align: center;
+}
+
+.book-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.book-author,
+.book-description {
+  font-size: 14px;
+  margin: 5px 0;
+}
