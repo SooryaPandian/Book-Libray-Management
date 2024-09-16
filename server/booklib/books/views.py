@@ -8,35 +8,34 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 def index(request):
     books = [
-        {'id': 1, 'title': 'To Kill a Mockingbird', 'author': 'Harper Lee', 'description': 'A novel about racial injustice in the American South.'},
-        {'id': 2, 'title': '1984', 'author': 'George Orwell', 'description': 'A dystopian novel about totalitarianism and surveillance.'},
-        {'id': 3, 'title': 'Pride and Prejudice', 'author': 'Jane Austen', 'description': 'A romantic novel that critiques the British landed gentry at the end of the 18th century.'},
-        {'id': 4, 'title': 'The Great Gatsby', 'author': 'F. Scott Fitzgerald', 'description': 'A novel set in the Jazz Age that explores themes of decadence and excess.'},
-        {'id': 5, 'title': 'Moby-Dick', 'author': 'Herman Melville', 'description': 'A narrative of the adventures of the wandering sailor Ishmael and his voyage on the whaling ship Pequod.'},
-        {'id': 6, 'title': 'War and Peace', 'author': 'Leo Tolstoy', 'description': 'A historical novel that chronicles the French invasion of Russia and its impact on Tsarist society.'},
-        {'id': 7, 'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'description': 'A novel about the experiences of a disillusioned teenager, Holden Caulfield.'},
-        {'id': 8, 'title': 'The Hobbit', 'author': 'J.R.R. Tolkien', 'description': 'A fantasy novel that follows the adventures of Bilbo Baggins as he helps a group of dwarves reclaim their homeland.'},
-        {'id': 9, 'title': 'Jane Eyre', 'author': 'Charlotte Brontë', 'description': 'A novel about the hardships of an orphaned girl who becomes a governess and falls in love with her employer.'},
-        {'id': 10, 'title': 'The Lord of the Rings', 'author': 'J.R.R. Tolkien', 'description': 'An epic fantasy trilogy that follows the quest to destroy the One Ring and defeat the Dark Lord Sauron.'},
+        {'id': 1, 'title': 'To Kill a Mockingbird', 'author': 'Harper Lee', 'description': 'A novel about racial injustice in the American South.', 'image': 'media/images/To_kill_a_MockingBird.jpg'},
+        {'id': 2, 'title': '1984', 'author': 'George Orwell', 'description': 'A dystopian novel about totalitarianism and surveillance.', 'image': 'media/images/oldman.jpg'},
+        {'id': 3, 'title': 'Pride and Prejudice', 'author': 'Jane Austen', 'description': 'A romantic novel that critiques the British landed gentry at the end of the 18th century.', 'image': 'media/images/To_kill_a_MockingBird.jpg'},
+        {'id': 4, 'title': 'The Great Gatsby', 'author': 'F. Scott Fitzgerald', 'description': 'A novel set in the Jazz Age that explores themes of decadence and excess.', 'image_url': 'https://example.com/images/the_great_gatsby.jpg'},
+        {'id': 5, 'title': 'Moby-Dick', 'author': 'Herman Melville', 'description': 'A narrative of the adventures of the wandering sailor Ishmael and his voyage on the whaling ship Pequod.', 'image_url': 'https://example.com/images/moby_dick.jpg'},
+        {'id': 6, 'title': 'War and Peace', 'author': 'Leo Tolstoy', 'description': 'A historical novel that chronicles the French invasion of Russia and its impact on Tsarist society.', 'image_url': 'https://example.com/images/war_and_peace.jpg'},
+        {'id': 7, 'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'description': 'A novel about the experiences of a disillusioned teenager, Holden Caulfield.', 'image_url': 'https://example.com/images/the_catcher_in_the_rye.jpg'},
+        {'id': 8, 'title': 'The Hobbit', 'author': 'J.R.R. Tolkien', 'description': 'A fantasy novel that follows the adventures of Bilbo Baggins as he helps a group of dwarves reclaim their homeland.', 'image_url': 'https://example.com/images/the_hobbit.jpg'},
+        {'id': 9, 'title': 'Jane Eyre', 'author': 'Charlotte Brontë', 'description': 'A novel about the hardships of an orphaned girl who becomes a governess and falls in love with her employer.', 'image_url': 'https://example.com/images/jane_eyre.jpg'},
+        {'id': 10, 'title': 'The Lord of the Rings', 'author': 'J.R.R. Tolkien', 'description': 'An epic fantasy trilogy that follows the quest to destroy the One Ring and defeat the Dark Lord Sauron.', 'image_url': 'https://example.com/images/the_lord_of_the_rings.jpg'},
     ]
     return render(request, 'book/index.html', {'books': books})
 
 def detail(request, book_id):
     books = {
-        1: {'title': 'To Kill a Mockingbird', 'author': 'Harper Lee', 'description': 'A novel about racial injustice in the American South.'},
-        2: {'title': '1984', 'author': 'George Orwell', 'description': 'A dystopian novel about totalitarianism and surveillance.'},
-        3: {'title': 'Pride and Prejudice', 'author': 'Jane Austen', 'description': 'A romantic novel that critiques the British landed gentry at the end of the 18th century.'},
-        4: {'title': 'The Great Gatsby', 'author': 'F. Scott Fitzgerald', 'description': 'A novel set in the Jazz Age that explores themes of decadence and excess.'},
-        5: {'title': 'Moby-Dick', 'author': 'Herman Melville', 'description': 'A narrative of the adventures of the wandering sailor Ishmael and his voyage on the whaling ship Pequod.'},
-        6: {'title': 'War and Peace', 'author': 'Leo Tolstoy', 'description': 'A historical novel that chronicles the French invasion of Russia and its impact on Tsarist society.'},
-        7: {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'description': 'A novel about the experiences of a disillusioned teenager, Holden Caulfield.'},
-        8: {'title': 'The Hobbit', 'author': 'J.R.R. Tolkien', 'description': 'A fantasy novel that follows the adventures of Bilbo Baggins as he helps a group of dwarves reclaim their homeland.'},
-        9: {'title': 'Jane Eyre', 'author': 'Charlotte Brontë', 'description': 'A novel about the hardships of an orphaned girl who becomes a governess and falls in love with her employer.'},
-        10: {'title': 'The Lord of the Rings', 'author': 'J.R.R. Tolkien', 'description': 'An epic fantasy trilogy that follows the quest to destroy the One Ring and defeat the Dark Lord Sauron.'},
+        1: {'title': 'To Kill a Mockingbird', 'author': 'Harper Lee', 'description': 'A novel about racial injustice in the American South.', 'image_url': 'https://example.com/images/to_kill_a_mockingbird.jpg'},
+        2: {'title': '1984', 'author': 'George Orwell', 'description': 'A dystopian novel about totalitarianism and surveillance.', 'image_url': 'https://example.com/images/1984.jpg'},
+        3: {'title': 'Pride and Prejudice', 'author': 'Jane Austen', 'description': 'A romantic novel that critiques the British landed gentry at the end of the 18th century.', 'image_url': 'https://example.com/images/pride_and_prejudice.jpg'},
+        4: {'title': 'The Great Gatsby', 'author': 'F. Scott Fitzgerald', 'description': 'A novel set in the Jazz Age that explores themes of decadence and excess.', 'image_url': 'https://example.com/images/the_great_gatsby.jpg'},
+        5: {'title': 'Moby-Dick', 'author': 'Herman Melville', 'description': 'A narrative of the adventures of the wandering sailor Ishmael and his voyage on the whaling ship Pequod.', 'image_url': 'https://example.com/images/moby_dick.jpg'},
+        6: {'title': 'War and Peace', 'author': 'Leo Tolstoy', 'description': 'A historical novel that chronicles the French invasion of Russia and its impact on Tsarist society.', 'image_url': 'https://example.com/images/war_and_peace.jpg'},
+        7: {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger', 'description': 'A novel about the experiences of a disillusioned teenager, Holden Caulfield.', 'image_url': 'https://example.com/images/the_catcher_in_the_rye.jpg'},
+        8: {'title': 'The Hobbit', 'author': 'J.R.R. Tolkien', 'description': 'A fantasy novel that follows the adventures of Bilbo Baggins as he helps a group of dwarves reclaim their homeland.', 'image_url': 'https://example.com/images/the_hobbit.jpg'},
+        9: {'title': 'Jane Eyre', 'author': 'Charlotte Brontë', 'description': 'A novel about the hardships of an orphaned girl who becomes a governess and falls in love with her employer.', 'image_url': 'https://example.com/images/jane_eyre.jpg'},
+        10: {'title': 'The Lord of the Rings', 'author': 'J.R.R. Tolkien', 'description': 'An epic fantasy trilogy that follows the quest to destroy the One Ring and defeat the Dark Lord Sauron.', 'image_url': 'https://example.com/images/the_lord_of_the_rings.jpg'},
     }
     book = books.get(book_id, None)
     return render(request, 'book/detail.html', {'book': book})
-
 
 def old_url_req(request):
     # return redirect("new_url")

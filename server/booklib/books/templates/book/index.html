@@ -1,33 +1,27 @@
+<!-- index.html -->
 {% extends 'base.html' %}
 
-{% block title %}Book Library - Search{% endblock %}
+{% block title %}Book Library{% endblock %}
 
 {% block content %}
-{% comment %} <div class="container mt-4">
-    <h2>Search for Books</h2>
-    <form method="GET" class="mb-4">
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form> {% endcomment %}
-
-    <h2>Book Results</h2>
-    <div class="row">
-        {% for book in books %}
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ book.title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{ book.author }}</h6>
-                    <p class="card-text">{{ book.description }}</p>
-                    <p><strong>Genre:</strong> {{ book.genre }}</p>
-                    <p><strong>Rating:</strong> {{ book.rating }}</p>
-                    <a href="{% url 'books:detail' book.id %}" class="btn btn-primary">View Details</a>
-                </div>
+<h2>Book List</h2>
+<div class="row">
+    {% for book in books %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            {% if book.image %}
+            <img src="{{ book.image }}" class="card-img-top" alt="{{ book.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ book.author }}</h6>
+                <p class="card-text">{{ book.description }}</p>
+                <a href="{% url 'books:detail' book.id %}" class="btn btn-primary">View Details</a>
             </div>
         </div>
-        {% empty %}
-        <p>No books found matching your criteria.</p>
-        {% endfor %}
     </div>
+    {% empty %}
+    <p>No books available.</p>
+    {% endfor %}
 </div>
 {% endblock %}
