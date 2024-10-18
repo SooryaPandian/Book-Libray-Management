@@ -6,6 +6,7 @@ import BookCard from "./components/BookCard";
 import BookShelf from "./components/BookShelf";
 import BookDetails from "./components/BookDetails"; // Import BookDetails
 import Signup from './components/Signup';
+import Login from './components/Login';
 import "./App.css";
 
 // Add image paths to books array
@@ -67,6 +68,8 @@ function App() {
           }
         />
         <Route path="/book/:id" element={<BookDetails books={books} />} />
+        <Route path="/signup" element={<Signup />} /> {/* Signup route */}
+        <Route path="/login" element={<Login />} />    {/* Login route */}
       </Routes>
     </div>
   );
