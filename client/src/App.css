@@ -1,30 +1,42 @@
-.App {
-  padding-top: 80px; /* Adjust this value if needed to match the height of your navbar */
+.book-cards-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows cards to wrap onto multiple rows */
+  justify-content: center; /* Centers the cards */
+  gap: 20px; /* Space between cards */
+  padding: 20px;
 }
 
-/* Styles for book-card */
 .book-card {
-  padding: 20px;
-  border: 1px solid #ddd;
+  flex: 1 1 calc(25% - 40px); /* Take up 25% of the row minus the gap */
+  max-width: calc(25% - 40px); /* Ensure the card doesn't grow beyond 25% width */
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #f4f4f4;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.book-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
   border-radius: 5px;
-  margin: 10px;
-  background-color: #fff;
 }
 
 .book-card h3 {
-  margin: 0;
+  font-size: 18px;
+  margin: 10px 0 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .book-card p {
-  margin: 5px 0;
-}
-.book-cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 20px;
-}
-
-.App {
-  text-align: center;
+  font-size: 14px;
+  color: #777;
 }

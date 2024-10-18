@@ -16,7 +16,7 @@ class Book(models.Model):
     genre = models.CharField(max_length=100)  # Genre of the book
     published_date = models.DateField()  # Date the book was published
     rating = models.DecimalField(max_digits=3, decimal_places=2, null=True, blank=True)  # Book rating (optional)
-    image = models.ImageField(upload_to='book_images/', null=True, blank=True)  # Image field
+    # image = models.ImageField(upload_to='book_images/', null=True, blank=True)  # Image field
 
     def __str__(self):
         return self.title

@@ -1,17 +1,19 @@
 import React from 'react';
-import './BookCard.css'; // Ensure this file exists and is properly styled
+import { useNavigate } from 'react-router-dom';
 
+const BookCard = ({ book }) => {
+  const navigate = useNavigate();
 
-const BookCard = ({ title, author, genre, cover }) => {
+  const handleBookClick = () => {
+    navigate(`/book/${book.id}`, { state: { book } }); // Navigate to BookDetails with book data
+  };
+
   return (
-    
-      <div className="book-card">
-        <img src={cover} alt={title} className="book-cover" />
-        <h3>{title}</h3>
-        <p><strong>Author:</strong> {author}</p>
-        <p><strong>Genre:</strong> {genre}</p>
-      </div>
-    
+    <div className="book-card" onClick={handleBookClick}>
+      <img src={book.cover} alt={book.title} />
+      <h3>{book.title}</h3>
+      <p>Author: {book.author}</p>
+    </div>
   );
 };
 

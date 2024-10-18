@@ -36,9 +36,9 @@
   transition: transform 0.3s ease-in-out;
 }
 
-/* .book-card:hover .book-cover {
-  transform: scale(1.1); /* Zoom effect on cover image */
-
+.book-card:hover .book-cover {
+  transform: scale(1.1); 
+}
 
 .book-details {
   text-align: center;
