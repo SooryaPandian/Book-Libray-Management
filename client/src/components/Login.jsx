@@ -1,12 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
 import loginImage from '../assets/login-image.png';
 
 const Login = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="login-page">
       <div className="login-container">
+        {/* Home button */}
+        <button onClick={() => navigate('/')} className="home-button">
+        <FontAwesomeIcon icon={faHouse} />
+        </button>
+
         {/* Left side for the form */}
         <div className="login-form">
           <h2>Login</h2>
