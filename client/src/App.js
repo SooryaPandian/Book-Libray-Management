@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom'; // Import useNavigate
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import Navbar from "./components/Navbar";
 import RecommendedBooksCarousel from "./components/RecommendedBooksCarousel";
 import BookCard from "./components/BookCard";
 import BookShelf from "./components/BookShelf";
-import BookDetails from "./components/BookDetails"; // Import BookDetails
-import Signup from './components/Signup';
-import Login from './components/Login';
+import BookDetails from "./components/BookDetails";
+import LoginSignupPage from './components/LoginSignupPage';
 import "./App.css";
 
 // Add image paths to books array
@@ -22,10 +21,9 @@ const books = [
   // { id: 9, title: '1984', author: 'George Orwell', genre: 'Dystopian', cover: require('./assets/The_hobbit.avif') },
   // { id: 10, title: 'The Art of War', author: 'Sun Tzu', genre: 'Philosophy', cover: require('./assets/Harry_Potter.jpeg') }
 ];
-
 function App() {
   const [filteredBooks, setFilteredBooks] = useState(books);
-  const navigate = useNavigate(); // Initialize navigate here
+  const navigate = useNavigate();
 
   const handleSearch = (query) => {
     if (!query) {
@@ -68,8 +66,8 @@ function App() {
           }
         />
         <Route path="/book/:id" element={<BookDetails books={books} />} />
-        <Route path="/signup" element={<Signup />} /> {/* Signup route */}
-        <Route path="/login" element={<Login />} />    {/* Login route */}
+        <Route path="/login" element={<LoginSignupPage />} />
+        <Route path="/signup" element={<LoginSignupPage />} />
       </Routes>
     </div>
   );
