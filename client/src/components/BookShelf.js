@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import '../components/BookShelf.css'; // Add this file for custom styles
+import '../components/styles/BookShelf.css'; // Add this file for custom styles
 
 // Sample books data
 const books = Array.from({ length: 50 }, (_, index) => ({

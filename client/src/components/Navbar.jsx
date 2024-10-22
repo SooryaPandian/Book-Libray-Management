@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchBar from './SearchBar';
-import './Navbar.css';
+import './styles/Navbar.css';
 
 const Navbar = ({ onSearch }) => {
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./LoginSignupPage.css"; // Link the updated CSS file
+import "./styles/LoginSignupPage.css"; // Link the updated CSS file
 
 function LoginSignup() {
   const [isSignUpMode, setSignUpMode] = useState(false);
