@@ -5,20 +5,20 @@ const BookShelf = () => {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
 
-  // Function to fetch books from the Gutenberg API
+  // Function to fetch books from Google Books API
   const fetchBooks = async () => {
     const response = await fetch(
-      `https://gutendex.com/books?languages=en&limit=50`
+      `https://www.googleapis.com/books/v1/volumes?q=books&maxResults=40`
     );
     const data = await response.json();
 
-    // Extract relevant information from the Gutenberg API response
-    const booksData = data.results.map((item) => ({
+    // Extract relevant information from API response
+    const booksData = data.items.map((item) => ({
       id: item.id,
-      title: item.title,
-      author: item.authors.length > 0 ? item.authors[0].name : 'Unknown Author',
-      genre: item.subjects.length > 0 ? item.subjects[0] : 'Unknown Genre',
-      cover: item.formats['image/jpeg'] || 'https://via.placeholder.com/100x150?text=No+Cover',
+      title: item.volumeInfo.title,
+      author: item.volumeInfo.authors ? item.volumeInfo.authors[0] : 'Unknown Author',
+      genre: item.volumeInfo.categories ? item.volumeInfo.categories[0] : 'Unknown Genre',
+      cover: item.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/100x150?text=No+Cover',
     }));
 
     setBooks(booksData);

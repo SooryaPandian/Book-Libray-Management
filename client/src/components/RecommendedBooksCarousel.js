@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import './RecommendedBooksCarousel.css';
+import './styles/RecommendedBooksCarousel.css';
 // import { PrevArrow, NextArrow } from '../components/CustomArrow'; // Import custom arrows
 
 // Import images

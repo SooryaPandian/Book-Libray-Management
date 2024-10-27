@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../components/styles/BookShelf.css'; // Add this file for custom styles
 
+// Sample books data
+const books = Array.from({ length: 50 }, (_, index) => ({
+  id: index + 1,
+  title: `Book ${index + 1}`,
+  author: `Author ${index + 1}`,
+  genre: `Genre ${index % 5 + 1}`,
+  cover: `https://via.placeholder.com/100x150?text=Book+${index + 1}` // Placeholder image
+}));
+
 const BookShelf = () => {
-  const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-
-  // Function to fetch books from the Gutenberg API
-  const fetchBooks = async () => {
-    const response = await fetch(
-      `https://gutendex.com/books?languages=en&limit=50`
-    );
-    const data = await response.json();
-
-    // Extract relevant information from the Gutenberg API response
-    const booksData = data.results.map((item) => ({
-      id: item.id,
-      title: item.title,
-      author: item.authors.length > 0 ? item.authors[0].name : 'Unknown Author',
-      genre: item.subjects.length > 0 ? item.subjects[0] : 'Unknown Genre',
-      cover: item.formats['image/jpeg'] || 'https://via.placeholder.com/100x150?text=No+Cover',
-    }));
-
-    setBooks(booksData);
-  };
-
-  useEffect(() => {
-    fetchBooks();
-  }, []);
 
   return (
     <div className="bookshelf-container">
