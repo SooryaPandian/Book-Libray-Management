@@ -1,11 +1,12 @@
 .search-bar {
     display: flex;
     align-items: center;
-    margin: 20px;
+    /* margin: 40px 80px; */
+    padding: 40px;
   }
   
   .search-bar input {
-    width: 300px;
+    width: 900px;
     padding: 10px;
     font-size: 16px;
     border: 1px solid #ccc;
