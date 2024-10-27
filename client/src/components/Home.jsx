@@ -1,8 +1,12 @@
-import React from 'react'
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import BookCard from './BookCard'
 import BookShelf from './BookShelf'
 import RecommendedBooksCarousel from './RecommendedBooksCarousel'
-export const Home = ({}) => {
+
+export const Home = ({filteredBooks}) => {
+  
+  const navigate = useNavigate();
   return (
     <div>
               <RecommendedBooksCarousel />
