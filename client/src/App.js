@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from "./components/Navbar";
-import RecommendedBooksCarousel from "./components/RecommendedBooksCarousel";
-import BookCard from "./components/BookCard";
-import BookShelf from "./components/BookShelf";
+// import RecommendedBooksCarousel from "./components/RecommendedBooksCarousel";
+// import BookCard from "./components/BookCard";
+// import BookShelf from "./components/BookShelf";
 import BookDetails from "./components/BookDetails";
 import LoginSignupPage from './components/LoginSignupPage';
 import "./App.css";
+import { Home } from './components/Home';
 
 // Add image paths to books array
 const books = [
@@ -23,7 +24,7 @@ const books = [
 ];
 function App() {
   const [filteredBooks, setFilteredBooks] = useState(books);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSearch = (query) => {
     if (!query) {
@@ -46,23 +47,7 @@ function App() {
         <Route
           path="/"
           element={
-            <div>
-              <RecommendedBooksCarousel />
-              <BookShelf />
-              <div className="book-cards-container">
-                {filteredBooks.length > 0 ? (
-                  filteredBooks.map(book => (
-                    <BookCard
-                      key={book.id}
-                      book={book}
-                      onBookClick={(selectedBook) => navigate(`/book/${selectedBook.id}`, { state: { book: selectedBook } })}
-                    />
-                  ))
-                ) : (
-                  <p>No books found</p>
-                )}
-              </div>
-            </div>
+            <Home filteredBooks={filteredBooks}/>
           }
         />
         <Route path="/book/:id" element={<BookDetails books={books} />} />
