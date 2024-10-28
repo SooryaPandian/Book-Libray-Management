@@ -1,57 +1,59 @@
-.book-cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start; /* Left alignment */
-  gap: 16px; /* Adds space between cards */
-  padding: 16px;
-}
-
 .book-card {
-  background-image: url('');
   background-position: center;
   background-size: cover;
-  background-attachment: fixed; /* To achieve parallax-like effect */
   border-radius: 8px;
   padding: 16px;
   margin: 16px;
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 300px;
-  transition: transform 0.3s ease-in-out, background-position 0.5s ease-in-out;
+  flex: 1 1 calc(25% - 32px); /* Adjusts for 4 cards per row */
+  max-width: calc(25% - 32px); /* Maximum width */
+  min-width: 220px; /* Minimum width */
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  display: flex; /* Enable flexbox */
+  flex-direction: column; /* Stack items vertically */
 }
 
 .book-card:hover {
   transform: scale(1.05) rotateX(10deg) rotateY(10deg);
-  background-position: bottom; /* Move the background image on hover */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
 
 .book-cover {
   width: 100%;
   height: auto;
-  max-height: 300px; /* Adjust as needed */
+  max-height: 250px; /* Set maximum height for the cover image */
   object-fit: cover;
   border-radius: 4px;
   transition: transform 0.3s ease-in-out;
 }
 
 .book-card:hover .book-cover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
-.book-details {
+.book-info {
   text-align: center;
+  margin-top: 10px; /* Adds space between image and text */
+  flex-grow: 1; /* Allows the info section to grow and fill available space */
 }
 
 .book-title {
   font-size: 18px;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 5px 0;
+  white-space: normal; /* Allow title to wrap */
+  overflow: hidden; /* Hide overflow if any */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+  max-height: 4.8em; /* Limit height to three lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Allow up to three lines */
+  -webkit-box-orient: vertical;
 }
 
-.book-author,
-.book-description {
+.book-author {
   font-size: 14px;
   margin: 5px 0;
+  color: #555;
 }
