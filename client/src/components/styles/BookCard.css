@@ -1,18 +1,26 @@
+.book-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows wrapping of cards to new rows if needed */
+  gap: 16px; /* Space between each card */
+  justify-content: center; /* Centers the cards horizontally */
+}
+
 .book-card {
   background-position: center;
   background-size: cover;
   border-radius: 8px;
   padding: 16px;
-  margin: 16px;
+  margin: 16px 0; /* Removes extra horizontal margin for a cleaner look */
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1 1 calc(25% - 32px); /* Adjusts for 4 cards per row */
-  max-width: calc(25% - 32px); /* Maximum width */
+  flex: 1 1 calc(25% - 32px); /* Ensures four cards per row, adjust as needed */
+  max-width: calc(25% - 32px); /* Maximum width for each card */
   min-width: 220px; /* Minimum width */
+  box-sizing: border-box; /* Ensures padding and border are included in width */
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
-  display: flex; /* Enable flexbox */
-  flex-direction: column; /* Stack items vertically */
+  display: flex;
+  flex-direction: column;
 }
 
 .book-card:hover {
@@ -23,7 +31,7 @@
 .book-cover {
   width: 100%;
   height: auto;
-  max-height: 250px; /* Set maximum height for the cover image */
+  max-height: 250px;
   object-fit: cover;
   border-radius: 4px;
   transition: transform 0.3s ease-in-out;
@@ -35,20 +43,20 @@
 
 .book-info {
   text-align: center;
-  margin-top: 10px; /* Adds space between image and text */
-  flex-grow: 1; /* Allows the info section to grow and fill available space */
+  margin-top: 10px;
+  flex-grow: 1;
 }
 
 .book-title {
   font-size: 18px;
   font-weight: bold;
   margin: 5px 0;
-  white-space: normal; /* Allow title to wrap */
-  overflow: hidden; /* Hide overflow if any */
-  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
-  max-height: 4.8em; /* Limit height to three lines */
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.8em;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Allow up to three lines */
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 

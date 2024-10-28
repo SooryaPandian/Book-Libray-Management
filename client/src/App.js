@@ -5,6 +5,8 @@ import {Home }from './components/Home';
 import BookDetails from './components/BookDetails';
 import LoginSignupPage from './components/LoginSignupPage';
 import Collections from './components/Collections'; // Import the Collections component
+import Profile from './components/Profile';
+import NewCollection from './components/NewCollectionForm';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -52,9 +54,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home filteredBooks={filteredBooks} />} />
           <Route path="/book/:id" element={<BookDetails />} />
-          <Route path="/login" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/signup" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/auth" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/collections" element={<Collections />} /> {/* Collections route */}
+          <Route path="/collections/new" element={<NewCollection />} />
         </Routes>
       </div>
     </Router>
