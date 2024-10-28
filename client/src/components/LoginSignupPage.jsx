@@ -61,6 +61,7 @@ function LoginSignup({ setIsLoggedIn }) {
       }
 
       // Store the token in localStorage
+      console.log(data.token);
       localStorage.setItem("token", data.token);
       setSuccessMessage("Logged in successfully!");
       setIsLoggedIn(true);

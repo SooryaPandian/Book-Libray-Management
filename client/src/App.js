@@ -7,7 +7,7 @@ import BookDetails from './components/BookDetails';
 import LoginSignupPage from './components/LoginSignupPage';
 import Collections from './components/Collections'; 
 import Profile from './components/Profile';
-import NewCollection from './components/NewCollectionForm';
+import "./App.css";
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -15,9 +15,17 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    // Additional logout logic, e.g., clearing cookies or local storage
+    // Clear all localStorage variables
+    localStorage.clear();
+  
+    // Attempt to close all other tabs (only works for tabs opened via script in some browsers)
+    window.open('', '_self'); // Open a blank page in the current tab
+    window.close(); // Attempt to close the current tab
+  
+    // Navigate to the login page
+    window.location.href = '/auth'; // Replace '/auth' with the correct path to the login page
   };
+  
 
   const fetchBooks = async (query) => {
     const url = query
@@ -50,7 +58,6 @@ function App() {
       <div className="App">
         <Navbar
           onSearch={fetchBooks}
-          isLoggedIn={isLoggedIn}
           handleLogout={handleLogout}
         />
         <Routes>
@@ -59,7 +66,7 @@ function App() {
           <Route path="/auth" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/collections" element={<Collections />} />
-          <Route path="/collections/new" element={<NewCollection />} />
+          
         </Routes>
       </div>
     </Router>

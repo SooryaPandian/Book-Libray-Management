@@ -16,13 +16,17 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("Connected to MongoDB"))
+.then(() => console.log("Connected to MongoDB sucess"))
 .catch((err) => console.error("MongoDB connection error:", err));
 
 
 const cors = require('cors');
-app.use(cors());
+const corsOptions = {
+  origin: "http://localhost:3000", // Replace with your frontend URL
+  credentials: true, // Allows cookies and Authorization headers
+};
 
+app.use(cors(corsOptions));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/collections", collectionRoutes);

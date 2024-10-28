@@ -5,8 +5,6 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-// Signup Route
-// Signup Route
 router.post("/signup", async (req, res) => {
   try {
     const { user_name, email, password, genres } = req.body;
@@ -31,7 +29,8 @@ router.post("/login", async (req, res) => {
 
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     res.cookie("token", token, { httpOnly: true });
-    res.json({ message: "Logged in successfully" });
+    console.log(token);
+    res.json({ message: "Logged in successfully","token":token});
   } catch (error) {
     res.status(500).json({ message: "Error logging in", error });
   }

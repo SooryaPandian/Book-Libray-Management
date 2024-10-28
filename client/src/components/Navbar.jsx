@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './styles/Navbar.css';
 
-const Navbar = ({ onSearch, isLoggedIn, handleLogout }) => {
+const Navbar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+
+  useEffect(() => {
+    // Event listener for storage changes
+    const handleStorageChange = () => {
+      setIsLoggedIn(!!localStorage.getItem('token'));
+    };
+
+    // Listen for storage events
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      // Clean up the event listener on component unmount
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   const handleSearch = () => {
     onSearch(query);
+  };
+
+  const handleUserLogout = () => {
+    localStorage.removeItem('token'); // Remove token on logout
+    setIsLoggedIn(false); // Update state immediately in the current tab
+    window.location.href = '/auth'; // Navigate to login page
   };
 
   return (
@@ -29,13 +51,10 @@ const Navbar = ({ onSearch, isLoggedIn, handleLogout }) => {
         {isLoggedIn ? (
           <>
             <a href="/profile" className="nav-link">👤 Profile</a>
-            <button onClick={handleLogout} className="nav-link">🔓 Logout</button>
+            <button onClick={handleUserLogout} className="nav-link">🔓 Logout</button>
           </>
         ) : (
-          <>
-            {/* <a href="/signup" className="nav-link">🔑 Sign Up</a> */}
-            <a href="/auth" className="nav-link">🔒 Login</a>
-          </>
+          <a href="/auth" className="nav-link">🔒 Login</a>
         )}
       </div>
     </nav>

@@ -1,38 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Loading from './Loading';
-import Collections from './Collections';
 import './styles/BookDetails.css';
 
 const BookDetails = () => {
   const { id } = useParams();
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showCollections, setShowCollections] = useState(false);
+  const [collections, setCollections] = useState([]);
+  const [collectionForm, setCollectionForm] = useState({ collection_name: "", description: "", visibility: "private" });
   const [readOnlineUrl, setReadOnlineUrl] = useState(null);
-  const userId = "currentUserId";
+  const [showCollectionForm, setShowCollectionForm] = useState(false);
 
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
         const response = await fetch(`https://gutendex.com/books/${id}`);
         const data = await response.json();
-
         const downloadLinks = Object.entries(data.formats)
-          .filter(([format, url]) => format !== 'image/jpeg') // Exclude cover image
+          .filter(([format, url]) => format !== 'image/jpeg')
           .reduce((acc, [format, url]) => {
-            if (format.includes('html') && !acc.readOnlineUrl) {
-              acc.readOnlineUrl = url;
-            }
-            if (format.includes('plain') && !acc.txtUrl) {
-              acc.txtUrl = url;
-            }
-            if (format.includes('epub') && !acc.epubUrl) {
-              acc.epubUrl = url;
-            }
-            if (format.includes('kindle') && !acc.kindleUrl) {
-              acc.kindleUrl = url;
-            }
+            if (format.includes('html') && !acc.readOnlineUrl) acc.readOnlineUrl = url;
+            if (format.includes('plain') && !acc.txtUrl) acc.txtUrl = url;
+            if (format.includes('epub') && !acc.epubUrl) acc.epubUrl = url;
+            if (format.includes('kindle') && !acc.kindleUrl) acc.kindleUrl = url;
             return acc;
           }, {});
 
@@ -55,19 +46,40 @@ const BookDetails = () => {
       }
     };
 
+    const fetchUserCollections = async () => {
+      // try {
+      //   const token = localStorage.getItem("token");
+      //   const response = await fetch(`http://localhost:5000/api/collections`, {
+      //     headers: { "Authorization": `Bearer ${token}` },
+      //   });
+      //   const data = await response.json();
+      //   setCollections(data);
+      // } catch (error) {
+      //   console.error("Error fetching collections:", error);
+      // }
+    };
+
     fetchBookDetails();
+    fetchUserCollections();
   }, [id]);
 
-  const handleAddToCollection = () => {
-    setShowCollections(!showCollections);
-  };
-
-  const handleReadOnline = () => {
-    setReadOnlineUrl(book.downloadLinks.readOnlineUrl);
-  };
-
-  const closeReadOnlineModal = () => {
-    setReadOnlineUrl(null);
+  const handleCreateCollection = async () => {
+    // try {
+    //   const token = localStorage.getItem("token");
+    //   const response = await fetch(`http://localhost:5000/api/collections`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Authorization": `Bearer ${token}`,
+    //     },
+    //     body: JSON.stringify({ ...collectionForm, book_ids: [book.id] }),
+    //   });
+    //   const newCollection = await response.json();
+    //   setCollections([...collections, newCollection]);
+    //   setShowCollectionForm(false);
+    // } catch (error) {
+    //   console.error("Error creating collection:", error);
+    // }
   };
 
   if (loading) return <Loading />;
@@ -87,46 +99,45 @@ const BookDetails = () => {
         <p><strong>Downloads:</strong> {book.downloadCount}</p>
         <p><strong>Description:</strong> {book.description}</p>
 
-        <button onClick={handleReadOnline} className="read-online-btn">
+        <button onClick={() => setShowCollectionForm(!showCollectionForm)}>
+          {showCollectionForm ? "Cancel" : "Add to Collection"}
+        </button>
+
+        {showCollectionForm && (
+          <div className="collection-form">
+            <input
+              type="text"
+              placeholder="Collection Name"
+              value={collectionForm.name}
+              onChange={(e) => setCollectionForm({ ...collectionForm, collection_name: e.target.value })}
+            />
+            <textarea
+              placeholder="Description"
+              value={collectionForm.description}
+              onChange={(e) => setCollectionForm({ ...collectionForm, description: e.target.value })}
+            />
+            <select
+              value={collectionForm.visibility}
+              onChange={(e) => setCollectionForm({ ...collectionForm, visibility: e.target.value })}
+            >
+              <option value="private">Private</option>
+              <option value="public">Public</option>
+            </select>
+            <button onClick={handleCreateCollection}>Create Collection</button>
+          </div>
+        )}
+
+        <button onClick={() => setReadOnlineUrl(book.downloadLinks.readOnlineUrl)}>
           Read Online
         </button>
 
         {readOnlineUrl && (
           <div className="read-online-modal-overlay">
             <div className="read-online-modal">
-              <button className="close-modal-btn" onClick={closeReadOnlineModal}>×</button>
-              <iframe
-                src={readOnlineUrl}
-                title="Read Online"
-                className="read-online-iframe"
-              />
+              <button onClick={() => setReadOnlineUrl(null)}>&times;</button>
+              <iframe src={readOnlineUrl} title="Read Online" className="read-online-iframe" />
             </div>
           </div>
-        )}
-
-        <div className="download-btn-container">
-          <button className="download-btn">Download</button>
-          <div className="download-options">
-            {book.downloadLinks.txtUrl && (
-              <a href={book.downloadLinks.txtUrl} target="_blank" rel="noopener noreferrer">Text</a>
-            )}
-            {book.downloadLinks.epubUrl && (
-              <a href={book.downloadLinks.epubUrl} target="_blank" rel="noopener noreferrer">ePub</a>
-            )}
-            {book.downloadLinks.kindleUrl && (
-              <a href={book.downloadLinks.kindleUrl} target="_blank" rel="noopener noreferrer">Kindle</a>
-            )}
-          </div>
-        </div>
-
-        <button onClick={handleAddToCollection}>Add to Collection</button>
-        
-        {showCollections && (
-          <Collections
-            userId={userId}
-            bookId={book.id}
-            onCollectionSelect={() => setShowCollections(false)}
-          />
         )}
       </div>
     </div>
