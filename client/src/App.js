@@ -8,9 +8,9 @@ import LoginSignupPage from './components/LoginSignupPage';
 import Collections from './components/Collections'; 
 import Profile from './components/Profile';
 import NewCollection from './components/NewCollectionForm';
-
+import './App.css'
 function App() {
-  const [books, setBooks] = useState([]);
+  // const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -34,7 +34,7 @@ function App() {
         cover: book.formats['image/jpeg'] || 'https://via.placeholder.com/150',
         year: book.publish_date || "Unknown Year",
       }));
-      setBooks(fetchedBooks);
+      // setBooks(fetchedBooks);
       setFilteredBooks(fetchedBooks);
     } catch (error) {
       console.error("Error fetching books:", error);

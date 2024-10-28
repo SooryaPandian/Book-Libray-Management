@@ -1,8 +1,9 @@
 .book-container {
   display: flex;
-  flex-wrap: wrap; /* Allows wrapping of cards to new rows if needed */
-  gap: 16px; /* Space between each card */
-  justify-content: center; /* Centers the cards horizontally */
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-evenly; /* Ensures even spacing across the row */
+  align-items: stretch; /* Ensures all cards align in height */
 }
 
 .book-card {
@@ -10,17 +11,17 @@
   background-size: cover;
   border-radius: 8px;
   padding: 16px;
-  margin: 16px 0; /* Removes extra horizontal margin for a cleaner look */
   text-align: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  flex: 1 1 calc(25% - 32px); /* Ensures four cards per row, adjust as needed */
-  max-width: calc(25% - 32px); /* Maximum width for each card */
+  width: calc(25% - 32px); /* Ensures four cards per row with consistent spacing */
+  max-width: 250px; /* Sets a maximum width for responsive design */
   min-width: 220px; /* Minimum width */
-  box-sizing: border-box; /* Ensures padding and border are included in width */
+  box-sizing: border-box;
   transition: transform 0.3s ease-in-out;
   cursor: pointer;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .book-card:hover {

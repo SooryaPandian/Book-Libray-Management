@@ -29,7 +29,7 @@ const Navbar = ({ onSearch, isLoggedIn, handleLogout }) => {
         {isLoggedIn ? (
           <>
             <a href="/profile" className="nav-link">👤 Profile</a>
-            <button onClick={handleLogout} className="nav-link">🔓 Logout</button>
+            <button onClick={handleLogout} className="nav-link"> Logout</button>
           </>
         ) : (
           <>

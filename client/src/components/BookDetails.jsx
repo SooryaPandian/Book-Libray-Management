@@ -94,7 +94,7 @@ const BookDetails = () => {
         {readOnlineUrl && (
           <div className="read-online-modal-overlay">
             <div className="read-online-modal">
-              <button className="close-modal-btn" onClick={closeReadOnlineModal}>×</button>
+              <button className="close-modal-btn" onClick={closeReadOnlineModal}>x</button>
               <iframe
                 src={readOnlineUrl}
                 title="Read Online"

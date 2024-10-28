@@ -1,10 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 .book-cards-container {
   display: flex;
   flex-wrap: wrap; /* Allows cards to wrap onto multiple rows */
   justify-content: center; /* Centers the cards */
   gap: 20px; /* Space between cards */
   padding: 20px;
-  flex-direction: row;
 }
 
 .book-card img {
@@ -12,4 +12,12 @@
   height: 200px;
   object-fit: cover;
   border-radius: 5px;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, .book-title {
+  font-family: 'Montserrat', sans-serif;
 }
