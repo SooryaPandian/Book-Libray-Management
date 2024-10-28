@@ -1,20 +1,22 @@
+// App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import {Home }from './components/Home';
+import { Home } from './components/Home';
 import BookDetails from './components/BookDetails';
 import LoginSignupPage from './components/LoginSignupPage';
-import Collections from './components/Collections'; // Import the Collections component
+import Collections from './components/Collections'; 
 import Profile from './components/Profile';
 import NewCollection from './components/NewCollectionForm';
 
 function App() {
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    // Additional logout logic, e.g., clearing cookies or local storage
   };
 
   const fetchBooks = async (query) => {
@@ -56,7 +58,7 @@ function App() {
           <Route path="/book/:id" element={<BookDetails />} />
           <Route path="/auth" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/collections" element={<Collections />} /> {/* Collections route */}
+          <Route path="/collections" element={<Collections />} />
           <Route path="/collections/new" element={<NewCollection />} />
         </Routes>
       </div>

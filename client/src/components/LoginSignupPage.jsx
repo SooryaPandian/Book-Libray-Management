@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import "./styles/LoginSignupPage.css"; // Link the updated CSS file
 
-function LoginSignup() {
+function LoginSignup({ setIsLoggedIn }) {
   const [isSignUpMode, setSignUpMode] = useState(false);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    user_name: "",   // updated field name for username
+    email: "",
+    password: "",
+    genres: ""       // added genres field
+  });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -13,17 +18,15 @@ function LoginSignup() {
     setSuccessMessage("");
   };
 
-  // Update form data
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  // Handle signup
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/auth/signup", {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -40,11 +43,10 @@ function LoginSignup() {
     }
   };
 
-  // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: formData.email, password: formData.password }),
@@ -55,6 +57,7 @@ function LoginSignup() {
         throw new Error(data.message || "Login failed");
       }
       setSuccessMessage("Logged in successfully!");
+      setIsLoggedIn(true);  // Set login status on success
       setErrorMessage("");
     } catch (error) {
       setErrorMessage(error.message);
@@ -68,7 +71,6 @@ function LoginSignup() {
         <h1>Sign In</h1>
         <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
-        <a href="#">Forgot Your Password?</a>
         <button onClick={handleLogin}>Sign In</button>
         {errorMessage && <p className="error">{errorMessage}</p>}
         {successMessage && <p className="success">{successMessage}</p>}
@@ -77,9 +79,10 @@ function LoginSignup() {
       {/* Sign Up Form Section */}
       <div className="form-container sign-up-container">
         <h1>Create Account</h1>
-        <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleInputChange} />
+        <input type="text" name="user_name" placeholder="Name" value={formData.user_name} onChange={handleInputChange} />
         <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
+        <input type="text" name="genres" placeholder="Favorite Genres (comma-separated)" value={formData.genres} onChange={handleInputChange} />
         <button onClick={handleSignup}>Sign Up</button>
         {errorMessage && <p className="error">{errorMessage}</p>}
         {successMessage && <p className="success">{successMessage}</p>}
