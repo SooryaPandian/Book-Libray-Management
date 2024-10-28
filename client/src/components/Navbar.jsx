@@ -33,8 +33,8 @@ const Navbar = ({ onSearch, isLoggedIn, handleLogout }) => {
           </>
         ) : (
           <>
-            <a href="/signup" className="nav-link">🔑 Sign Up</a>
-            <a href="/login" className="nav-link">🔒 Login</a>
+            {/* <a href="/signup" className="nav-link">🔑 Sign Up</a> */}
+            <a href="/auth" className="nav-link">🔒 Login</a>
           </>
         )}
       </div>
