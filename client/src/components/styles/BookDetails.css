@@ -1,4 +1,5 @@
 .book-details-container {
+  margin-top: 5%;
   display: flex;
   align-items: center; /* Ensures that the image and text are vertically centered */
   padding: 20px;
@@ -31,4 +32,27 @@
 .book-info-container p {
   margin-bottom: 10px;
   line-height: 1.6;
+}
+
+.download-links {
+  margin-top: 20px;
+}
+
+.download-links ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.download-links li {
+  margin-bottom: 8px;
+}
+
+.download-links a {
+  color: #1a73e8;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.download-links a:hover {
+  text-decoration: underline;
 }

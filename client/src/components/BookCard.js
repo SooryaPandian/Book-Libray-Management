@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import '../components/styles/BookCard.css';
 const BookCard = ({ book }) => {
   const navigate = useNavigate();
 
@@ -10,9 +10,11 @@ const BookCard = ({ book }) => {
 
   return (
     <div className="book-card" onClick={handleBookClick}>
-      <img src={book.cover} alt={book.title} />
-      <h3>{book.title}</h3>
-      <p>Author: {book.author}</p>
+      <img src={book.cover} alt={book.title} className="book-cover" />
+      <div className="book-info">
+        <div className="book-title">{book.title}</div>
+        <div className="book-author">Author: {book.author}</div>
+      </div>
     </div>
   );
 };
