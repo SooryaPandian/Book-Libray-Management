@@ -9,7 +9,9 @@ const BookDetails = () => {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showCollections, setShowCollections] = useState(false);
+  const [readOnlineUrl, setReadOnlineUrl] = useState(null);
   const userId = "currentUserId";
+
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -18,14 +20,21 @@ const BookDetails = () => {
 
         const downloadLinks = Object.entries(data.formats)
           .filter(([format, url]) => format !== 'image/jpeg') // Exclude cover image
-          .map(([format, url]) => {
-            let displayText = '';
-            if (format.includes('html')) displayText = 'Read Online';
-            else if (format.includes('pdf')) displayText = 'Download PDF';
-            else if (format.includes('epub')) displayText = 'Download ePub';
-            else if (format.includes('plain')) displayText = 'Download Text';
-            return { displayText, url };
-          });
+          .reduce((acc, [format, url]) => {
+            if (format.includes('html') && !acc.readOnlineUrl) {
+              acc.readOnlineUrl = url;
+            }
+            if (format.includes('plain') && !acc.txtUrl) {
+              acc.txtUrl = url;
+            }
+            if (format.includes('epub') && !acc.epubUrl) {
+              acc.epubUrl = url;
+            }
+            if (format.includes('kindle') && !acc.kindleUrl) {
+              acc.kindleUrl = url;
+            }
+            return acc;
+          }, {});
 
         setBook({
           id: data.id,
@@ -53,6 +62,14 @@ const BookDetails = () => {
     setShowCollections(!showCollections);
   };
 
+  const handleReadOnline = () => {
+    setReadOnlineUrl(book.downloadLinks.readOnlineUrl);
+  };
+
+  const closeReadOnlineModal = () => {
+    setReadOnlineUrl(null);
+  };
+
   if (loading) return <Loading />;
   if (!book) return <p>Book not found</p>;
 
@@ -64,6 +81,44 @@ const BookDetails = () => {
       <div className="book-info-container">
         <h2>{book.title}</h2>
         <p><strong>Author:</strong> {book.author}</p>
+        <p><strong>Genre:</strong> {book.genre}</p>
+        <p><strong>Languages:</strong> {book.languages}</p>
+        <p><strong>Publication Date:</strong> {book.publicationDate}</p>
+        <p><strong>Downloads:</strong> {book.downloadCount}</p>
+        <p><strong>Description:</strong> {book.description}</p>
+
+        <button onClick={handleReadOnline} className="read-online-btn">
+          Read Online
+        </button>
+
+        {readOnlineUrl && (
+          <div className="read-online-modal-overlay">
+            <div className="read-online-modal">
+              <button className="close-modal-btn" onClick={closeReadOnlineModal}>×</button>
+              <iframe
+                src={readOnlineUrl}
+                title="Read Online"
+                className="read-online-iframe"
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="download-btn-container">
+          <button className="download-btn">Download</button>
+          <div className="download-options">
+            {book.downloadLinks.txtUrl && (
+              <a href={book.downloadLinks.txtUrl} target="_blank" rel="noopener noreferrer">Text</a>
+            )}
+            {book.downloadLinks.epubUrl && (
+              <a href={book.downloadLinks.epubUrl} target="_blank" rel="noopener noreferrer">ePub</a>
+            )}
+            {book.downloadLinks.kindleUrl && (
+              <a href={book.downloadLinks.kindleUrl} target="_blank" rel="noopener noreferrer">Kindle</a>
+            )}
+          </div>
+        </div>
+
         <button onClick={handleAddToCollection}>Add to Collection</button>
         
         {showCollections && (

@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import "./styles/LoginSignupPage.css"; // Link the updated CSS file
+import { useNavigate } from "react-router-dom";
+import "./styles/LoginSignupPage.css";
 
 function LoginSignup({ setIsLoggedIn }) {
   const [isSignUpMode, setSignUpMode] = useState(false);
   const [formData, setFormData] = useState({
-    user_name: "",   // updated field name for username
+    user_name: "",
     email: "",
     password: "",
-    genres: ""       // added genres field
+    genres: ""
   });
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const navigate = useNavigate(); // useNavigate hook
 
   const toggleMode = () => {
     setSignUpMode((prevMode) => !prevMode);
@@ -56,9 +59,15 @@ function LoginSignup({ setIsLoggedIn }) {
       if (!response.ok) {
         throw new Error(data.message || "Login failed");
       }
+
+      // Store the token in localStorage
+      localStorage.setItem("token", data.token);
       setSuccessMessage("Logged in successfully!");
-      setIsLoggedIn(true);  // Set login status on success
+      setIsLoggedIn(true);
       setErrorMessage("");
+
+      // Navigate to the home page
+      navigate("/");
     } catch (error) {
       setErrorMessage(error.message);
     }
