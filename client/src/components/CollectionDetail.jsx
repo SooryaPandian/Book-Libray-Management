@@ -1,4 +1,3 @@
-// CollectionDetail.js
 import React, { useEffect, useState } from 'react';
 import BookCard from './BookCard';
 import { useParams } from 'react-router-dom';
@@ -19,12 +18,26 @@ const CollectionDetail = () => {
         });
         const data = await response.json();
         setCollection(data);
+
         const bookDetails = await Promise.all(
           data.book_ids.map(async (bookId) => {
-            const bookResponse = await fetch(`https://gutendex.com/books/${bookId}`);
-            return await bookResponse.json();
+            const bookResponse = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+            const bookData = await bookResponse.json();
+            const bookInfo = bookData.volumeInfo;
+
+            return {
+              id: bookData.id,
+              title: bookInfo.title,
+              author: bookInfo.authors ? bookInfo.authors.join(', ') : "Unknown Author",
+              genre: bookInfo.categories ? bookInfo.categories.join(', ') : "Unknown Genre",
+              description: bookInfo.description || "Description not available.",
+              cover: bookInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150',
+              publicationDate: bookInfo.publishedDate || "Unknown Year",
+              language: bookInfo.language ? bookInfo.language.toUpperCase() : "Unknown Language",
+            };
           })
         );
+
         setBooks(bookDetails);
       } catch (error) {
         console.error("Error fetching collection details:", error);

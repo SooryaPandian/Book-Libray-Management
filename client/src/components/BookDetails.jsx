@@ -17,29 +17,22 @@ const BookDetails = () => {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
-        const response = await fetch(`https://gutendex.com/books/${id}`);
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`);
         const data = await response.json();
-        const downloadLinks = Object.entries(data.formats)
-          .filter(([format]) => format !== 'image/jpeg')
-          .reduce((acc, [format, url]) => {
-            if (format.includes('html') && !acc.readOnlineUrl) acc.readOnlineUrl = url;
-            if (format.includes('plain') && !acc.txtUrl) acc.txtUrl = url;
-            if (format.includes('epub') && !acc.epubUrl) acc.epubUrl = url;
-            if (format.includes('kindle') && !acc.kindleUrl) acc.kindleUrl = url;
-            return acc;
-          }, {});
 
+        const bookInfo = data.volumeInfo;
         setBook({
           id: data.id,
-          title: data.title,
-          author: data.authors.map(author => author.name).join(', ') || "Unknown Author",
-          genre: data.subjects.join(', ') || "Unknown Genre",
-          description: data.bookshelves.join(', ') || "Description not available.",
-          cover: data.formats['image/jpeg'] || 'https://via.placeholder.com/150',
-          languages: data.languages.map(lang => lang.toUpperCase()).join(', '),
-          publicationDate: data.publish_date || "Unknown Year",
-          downloadCount: data.download_count,
-          downloadLinks,
+          title: bookInfo.title,
+          author: bookInfo.authors ? bookInfo.authors.join(', ') : "Unknown Author",
+          genre: bookInfo.categories ? bookInfo.categories.join(', ') : "Unknown Genre",
+          description: bookInfo.description || "Description not available.",
+          cover: bookInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150',
+          languages: bookInfo.language ? bookInfo.language.toUpperCase() : "Unknown Language",
+          publicationDate: bookInfo.publishedDate || "Unknown Year",
+          pageCount: bookInfo.pageCount || "Unknown Page Count",
+          publisher: bookInfo.publisher || "Unknown Publisher",
+          previewLink: bookInfo.previewLink || null, // Preview link for viewing the book online
         });
         setLoading(false);
       } catch (error) {
@@ -121,104 +114,93 @@ const BookDetails = () => {
 
   return (
     <div className="book-details-container">
-      <div className="book-cover-container">
-        <img src={book.cover} alt={book.title} className="book-cover" />
+  <div className="book-cover-container">
+    <img src={book.cover} alt={book.title} style={{height:'600px'}} />
+  </div>
+  <div className="book-info-container">
+    <h2 className="book-title-detail">{book.title}</h2>
+    <p className="book-detail"><strong>Author:</strong> {book.author}</p>
+    <p className="book-detail"><strong>Genre:</strong> {book.genre}</p>
+    <p className="book-detail"><strong>Languages:</strong> {book.languages}</p>
+    <p className="book-detail"><strong>Publication Date:</strong> {book.publicationDate}</p>
+    <p className="book-detail"><strong>Page Count:</strong> {book.pageCount}</p>
+    <p className="book-detail"><strong>Publisher:</strong> {book.publisher}</p>
+    <p className="book-detail"><strong>Description:</strong> <span dangerouslySetInnerHTML={{ __html: book.description }} /></p>
+
+    {book.previewLink && (
+      <div className="preview-link">
+        <a href={book.previewLink} target="_blank" rel="noopener noreferrer">
+          View Book Preview
+        </a>
       </div>
-      <div className="book-info-container">
-        <h2>{book.title}</h2>
-        <p><strong>Author:</strong> {book.author}</p>
-        <p><strong>Genre:</strong> {book.genre}</p>
-        <p><strong>Languages:</strong> {book.languages}</p>
-        <p><strong>Publication Date:</strong> {book.publicationDate}</p>
-        <p><strong>Downloads:</strong> {book.downloadCount}</p>
-        <p><strong>Description:</strong> {book.description}</p>
+    )}
 
-        {book.downloadLinks && (
-          <div className="download-options">
-            {book.downloadLinks.readOnlineUrl && (
-              <button onClick={() => setReadOnlineUrl(book.downloadLinks.readOnlineUrl)}>
-                Read Online
-              </button>
-            )}
-            {book.downloadLinks.txtUrl && (
-              <a href={book.downloadLinks.txtUrl} target="_blank" rel="noopener noreferrer">
-                Download TXT
-              </a>
-            )}
-            {book.downloadLinks.epubUrl && (
-              <a href={book.downloadLinks.epubUrl} target="_blank" rel="noopener noreferrer">
-                Download EPUB
-              </a>
-            )}
-            {book.downloadLinks.kindleUrl && (
-              <a href={book.downloadLinks.kindleUrl} target="_blank" rel="noopener noreferrer">
-                Download Kindle
-              </a>
-            )}
-          </div>
-        )}
+    <button onClick={() => setShowCollectionForm(!showCollectionForm)}>
+      {showCollectionForm ? "Cancel" : "Add to Collection"}
+    </button>
 
-        <button onClick={() => setShowCollectionForm(!showCollectionForm)}>
-          {showCollectionForm ? "Cancel" : "Add to Collection"}
-        </button>
-
-        {showCollectionForm && (
-          <div className="collections-list">
-            {collections.length > 0 ? (
-              collections.map((collection) => (
-                <div key={collection._id}>
-                  <label>
-                    <input
-                      type="checkbox"
-                      checked={selectedCollections.includes(collection._id)}
-                      onChange={() => toggleCollectionSelection(collection._id)}
-                    />
-                    {collection.collection_name}
-                  </label>
-                </div>
-              ))
-            ) : (
-              <p>No collections available. Create a new collection.</p>
-            )}
-            <button onClick={handleAddBookToCollections}>Add to Selected Collections</button>
-            <button onClick={() => setShowNewCollectionForm(true)}>Create New Collection</button>
-          </div>
-        )}
-
-        {showNewCollectionForm && (
-          <div className="new-collection-form">
-            <input
-              type="text"
-              placeholder="Collection Name"
-              value={newCollectionForm.collection_name}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
-            />
-            <textarea
-              placeholder="Description"
-              value={newCollectionForm.description}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
-            />
-            <select
-              value={newCollectionForm.visibility}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
-            >
-              <option value="private">Private</option>
-              <option value="public">Public</option>
-            </select>
-            <button onClick={handleCreateNewCollection}>Create Collection</button>
-          </div>
-        )}
-
-        {readOnlineUrl && (
-          <div className="read-online-modal-overlay">
-            <div className="read-online-modal">
-              <button onClick={() => setReadOnlineUrl(null)}>&times;</button>
-              <iframe src={readOnlineUrl} title="Read Online" className="read-online-iframe" />
+    {showCollectionForm && (
+      <div className="collections-list">
+        {collections.length > 0 ? (
+          collections.map((collection) => (
+            <div key={collection._id}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={selectedCollections.includes(collection._id)}
+                  onChange={() => toggleCollectionSelection(collection._id)}
+                />
+                {collection.collection_name}
+              </label>
             </div>
-          </div>
+          ))
+        ) : (
+          <p>No collections available. Create a new collection.</p>
         )}
+        <button onClick={handleAddBookToCollections}>Add to Selected Collections</button>
+        <button onClick={() => {
+          if(localStorage.getItem('token')!=null)
+          setShowNewCollectionForm(true);
+          
+        }}>Create New Collection</button>
       </div>
-    </div>
+    )}
+
+    {showNewCollectionForm && (
+      <div className="new-collection-form">
+        <input
+          type="text"
+          placeholder="Collection Name"
+          value={newCollectionForm.collection_name}
+          onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
+        />
+        <textarea
+          placeholder="Description"
+          value={newCollectionForm.description}
+          onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
+        />
+        <select
+          value={newCollectionForm.visibility}
+          onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
+        >
+          <option value="private">Private</option>
+          <option value="public">Public</option>
+        </select>
+        <button onClick={handleCreateNewCollection}>Create Collection</button>
+      </div>
+    )}
+
+    {readOnlineUrl && (
+      <div className="read-online-modal-overlay">
+        <div className="read-online-modal">
+          <button onClick={() => setReadOnlineUrl(null)}>&times;</button>
+          <iframe src={readOnlineUrl} title="Read Online" className="read-online-iframe" />
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
   );
 };
 

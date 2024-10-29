@@ -1,11 +1,10 @@
-// App.js
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import { Home } from './components/Home';
 import BookDetails from './components/BookDetails';
 import LoginSignupPage from './components/LoginSignupPage';
-import Collections from './components/Collections'; 
+import Collections from './components/Collections';
 import Profile from './components/Profile';
 import CollectionDetail from './components/CollectionDetail';
 import "./App.css";
@@ -16,32 +15,26 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
-    // Clear all localStorage variables
     localStorage.clear();
-  
-    // Attempt to close all other tabs (only works for tabs opened via script in some browsers)
-    window.open('', '_self'); // Open a blank page in the current tab
-    window.close(); // Attempt to close the current tab
-  
-    // Navigate to the login page
-    window.location.href = '/auth'; // Replace '/auth' with the correct path to the login page
+    window.open('', '_self');
+    window.close();
+    window.location.href = '/auth';
   };
-  
 
   const fetchBooks = async (query) => {
     const url = query
-      ? `https://gutendex.com/books?search=${query}`
-      : 'https://gutendex.com/books?sort=random';
+      ? `https://www.googleapis.com/books/v1/volumes?q=${query}`
+      : 'https://www.googleapis.com/books/v1/volumes?q=random';
 
     try {
       const response = await fetch(url);
       const data = await response.json();
-      const fetchedBooks = data.results.map(book => ({
+      const fetchedBooks = data.items.map(book => ({
         id: book.id,
-        title: book.title,
-        author: book.authors[0]?.name || "Unknown Author",
-        cover: book.formats['image/jpeg'] || 'https://via.placeholder.com/150',
-        year: book.publish_date || "Unknown Year",
+        title: book.volumeInfo.title,
+        author: book.volumeInfo.authors ? book.volumeInfo.authors[0] : "Unknown Author",
+        cover: book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150',
+        year: book.volumeInfo.publishedDate || "Unknown Year",
       }));
       setBooks(fetchedBooks);
       setFilteredBooks(fetchedBooks);

@@ -1,90 +1,75 @@
-/* Existing styles */
-
 .book-details-container {
   display: flex;
-  flex-direction: row;
   gap: 20px;
   padding: 20px;
   margin-top: 5%;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Aligns the content to the top */
 }
 
+/* Book Cover */
 .book-cover-container {
-  flex-shrink: 0;
+  flex: 0.5; /* Allows the cover to fill half of the left side */
+  max-height: 80vh; /* Limit height to avoid overflow */
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center the content */
+  align-items: center; /* Center the content vertically */
+  overflow: hidden; /* Prevent scrolling */
 }
+
 
 .book-cover {
-  width: 150px;
-  height: auto;
+  width: 50vw; /* Makes the image responsive */
+  height: 100vh; /* Keeps the aspect ratio */
   border-radius: 5px;
 }
 
+/* Book Info */
 .book-info-container {
+  flex: 1; /* Allows the info section to fill the right side */
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adds space between the elements */
 }
 
-.read-online-btn {
+.book-title-detail {
+  color: #007bff; /* Primary color for the title */
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0; /* Removes default margin */
+}
+
+.book-detail {
+  color: #333; /* Darker color for details */
+  font-size: 16px;
+}
+
+/* Link Styles */
+.preview-link a {
+  color: #007bff; /* Link color */
+  text-decoration: underline; /* Underlined link */
+}
+
+.preview-link a:hover {
+  color: #0056b3; /* Darker link color on hover */
+}
+
+/* Button Styles */
+button {
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.read-online-btn:hover {
-  background-color: #0056b3;
+button:hover {
+  background-color: #f0f0f0; /* Light background on hover */
 }
 
-/* Download button dropdown */
-.download-btn-container {
-  position: relative;
-  display: inline-block;
-  margin-top: 10px;
-}
-
-.download-btn {
-  padding: 10px 20px;
-  background-color: #28a745;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.download-btn:hover {
-  background-color: #218838;
-}
-
-.download-options {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 120px;
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  border-radius: 5px;
-}
-
-.download-btn-container:hover .download-options {
-  display: block;
-}
-
-.download-options a {
-  color: #333;
-  padding: 10px;
-  text-decoration: none;
-  display: block;
-  border-radius: 5px;
-}
-
-.download-options a:hover {
-  background-color: #ddd;
-}
-
-/* Popup Modal Styles */
+/* Modal Styles */
 .read-online-modal-overlay {
   position: fixed;
   top: 0;
@@ -119,14 +104,12 @@
   right: 10px;
   background: #ff5c5c;
   color: #fff;
-  border: none;
   border-radius: 50%;
   width: 30px;
   height: 30px;
-  font-size: 18px;
-  line-height: 30px;
   text-align: center;
   cursor: pointer;
+  transition: background 0.3s;
 }
 
 .close-modal-btn:hover {
