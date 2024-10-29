@@ -63,6 +63,16 @@ const BookDetails = () => {
     fetchUserCollections();
   }, [id]);
 
+  const handleAddCollection = () =>{
+    if(localStorage.getItem('token')!=null){
+    setShowCollectionForm(!showCollectionForm);
+    }
+    else{
+      window.location.href='/auth';
+      alert("You are not logged in");
+    }
+  }
+
   const handleCreateCollection = async () => {
     // try {
     //   const token = localStorage.getItem("token");
@@ -99,7 +109,7 @@ const BookDetails = () => {
         <p><strong>Downloads:</strong> {book.downloadCount}</p>
         <p><strong>Description:</strong> {book.description}</p>
 
-        <button onClick={() => setShowCollectionForm(!showCollectionForm)}>
+        <button onClick={handleAddCollection}>
           {showCollectionForm ? "Cancel" : "Add to Collection"}
         </button>
 

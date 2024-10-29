@@ -68,7 +68,8 @@ function LoginSignup({ setIsLoggedIn }) {
       setErrorMessage("");
 
       // Navigate to the home page
-      navigate("/");
+      navigate(-1);
+
     } catch (error) {
       setErrorMessage(error.message);
     }
