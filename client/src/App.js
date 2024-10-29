@@ -7,6 +7,7 @@ import BookDetails from './components/BookDetails';
 import LoginSignupPage from './components/LoginSignupPage';
 import Collections from './components/Collections'; 
 import Profile from './components/Profile';
+import CollectionDetail from './components/CollectionDetail';
 import "./App.css";
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
           <Route path="/auth" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/collections" element={<Collections />} />
-          
+          <Route path="/collections/:collectionId" element={<CollectionDetail />} />
         </Routes>
       </div>
     </Router>

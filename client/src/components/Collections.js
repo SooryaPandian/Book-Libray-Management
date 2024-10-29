@@ -1,65 +1,54 @@
+// Collections.js
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './styles/Collections.css';
 
-const Collections = ({ userId, bookId, onCollectionSelect }) => {
+const Collections = () => {
   const [collections, setCollections] = useState([]);
-  const [newCollectionName, setNewCollectionName] = useState('');
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch user collections from the backend
     const fetchCollections = async () => {
       try {
-        const response = await fetch(`/api/collections/${userId}`);
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:5000/api/collections`, {
+          headers: { "Authorization": `Bearer ${token}` },
+        });
         const data = await response.json();
         setCollections(data);
       } catch (error) {
         console.error("Error fetching collections:", error);
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchCollections();
-  }, [userId]);
+  }, []);
 
-  const handleAddToCollection = async (collectionId) => {
-    // Add book to the selected collection
-    await fetch(`/api/collections/${collectionId}/add`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ bookId }),
-    });
-    onCollectionSelect(); // Callback to update parent component
-  };
-
-  const handleCreateCollection = async () => {
-    // Create new collection with the specified name
-    const response = await fetch(`/api/collections/create`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, collectionName: newCollectionName }),
-    });
-    const newCollection = await response.json();
-    setCollections([...collections, newCollection]);
-    setNewCollectionName('');
+  const handleCollectionClick = (collectionId) => {
+    navigate(`/collections/${collectionId}`);
   };
 
   return (
-    <div className="collections-container">
-      <h3>Select a Collection</h3>
-      {collections.length > 0 ? (
-        collections.map(collection => (
-          <button key={collection._id} onClick={() => handleAddToCollection(collection._id)}>
-            {collection.collection_name}
-          </button>
-        ))
+    <div className="collections-page">
+      <h2>Your Collections</h2>
+      {loading ? (
+        <p>Loading collections...</p>
       ) : (
-        <p>No collections available.</p>
+        <div className="collections-list">
+          {collections.map((collection) => (
+            <button
+              key={collection._id}
+              onClick={() => handleCollectionClick(collection._id)}
+              className="collection-item"
+            >
+              {collection.collection_name}
+            </button>
+          ))}
+        </div>
       )}
-      <input
-        type="text"
-        placeholder="New Collection Name"
-        value={newCollectionName}
-        onChange={(e) => setNewCollectionName(e.target.value)}
-      />
-      <button onClick={handleCreateCollection}>Create Collection</button>
     </div>
   );
 };

@@ -61,8 +61,23 @@ router.get("/", authenticate, async (req, res) => {
   }
 });
 
+router.get('/:collectionId/books', async (req, res) => {
+  const { collectionId } = req.params;
+
+  try {
+    const collection = await Collection.findById(collectionId).populate('books'); // Assuming 'books' is the field storing book references
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+    res.json({ books: collection.books });
+  } catch (error) {
+    console.error("Error fetching books for collection:", error);
+    res.status(500).json({ message: "Error fetching books for collection" });
+  }
+});
+
 // Get a Collection by ID
-router.get("/:id", authenticate, async (req, res) => {
+router.get("/:id", async (req, res) => {
   console.log("Get Collection by ID: Request received for collection ID:", req.params.id);
   try {
     const collection = await BookCollection.findById(req.params.id);
@@ -77,28 +92,31 @@ router.get("/:id", authenticate, async (req, res) => {
     res.status(500).json({ message: "Error fetching collection", error });
   }
 });
-
-// Update Collection
+// Update Collection to Add Book ID
 router.put("/:id", authenticate, async (req, res) => {
-  console.log("Update Collection: Request received for collection ID:", req.params.id);
-  console.log("Update Collection: Update data:", req.body);
+  console.log("Update Collection: Adding book to collection ID:", req.params.id);
+  const { book_ids } = req.body;
+
   try {
-    const { collection_name, description, book_ids, visibility } = req.body;
-    const collection = await BookCollection.findByIdAndUpdate(
-      req.params.id,
-      { collection_name, description, book_ids, visibility },
-      { new: true }
-    );
+    const collection = await BookCollection.findById(req.params.id);
     if (!collection) {
-      console.log("Update Collection: Collection not found");
       return res.status(404).json({ message: "Collection not found" });
     }
-    console.log("Update Collection: Collection updated:", collection);
+
+    // Add book ID to collection if not already present
+    book_ids.forEach((book_id) => {
+      if (!collection.book_ids.includes(book_id)) {
+        collection.book_ids.push(book_id);
+      }
+    });
+
+    await collection.save();
     res.json(collection);
   } catch (error) {
-    console.log("Update Collection: Error updating collection:", error.message);
+    console.log("Error updating collection:", error.message);
     res.status(500).json({ message: "Error updating collection", error });
   }
 });
+
 
 module.exports = router;

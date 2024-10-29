@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles/Navbar.css';
+import { Link } from 'react-router-dom';
 
 const Navbar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
@@ -33,7 +34,8 @@ const Navbar = ({ onSearch }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <div className="app-name">MyBookApp</div>
+        <Link to={"/"} ><div className="app-name">MyBookApp</div></Link>
+        <Link to="/collections" className="nav-link">📚 Collections</Link>
       </div>
       <div className="navbar-center">
         <input
