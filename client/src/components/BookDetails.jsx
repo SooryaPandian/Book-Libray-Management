@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Loading from './Loading';
 import './styles/BookDetails.css';
 
@@ -12,14 +12,13 @@ const BookDetails = () => {
   const [showCollectionForm, setShowCollectionForm] = useState(false);
   const [newCollectionForm, setNewCollectionForm] = useState({ collection_name: "", description: "", visibility: "private" });
   const [showNewCollectionForm, setShowNewCollectionForm] = useState(false);
-  const [readOnlineUrl, setReadOnlineUrl] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
         const response = await fetch(`https://www.googleapis.com/books/v1/volumes/${id}`);
         const data = await response.json();
-
         const bookInfo = data.volumeInfo;
         setBook({
           id: data.id,
@@ -32,7 +31,7 @@ const BookDetails = () => {
           publicationDate: bookInfo.publishedDate || "Unknown Year",
           pageCount: bookInfo.pageCount || "Unknown Page Count",
           publisher: bookInfo.publisher || "Unknown Publisher",
-          previewLink: bookInfo.previewLink || null, // Preview link for viewing the book online
+          previewLink: bookInfo.previewLink || null,
         });
         setLoading(false);
       } catch (error) {
@@ -74,6 +73,7 @@ const BookDetails = () => {
         })
       );
       alert("Book added to selected collections successfully!");
+      setSelectedCollections([]); // Clear selections after adding
       setShowCollectionForm(false);
     } catch (error) {
       console.error("Error adding book to collections:", error);
@@ -114,93 +114,81 @@ const BookDetails = () => {
 
   return (
     <div className="book-details-container">
-  <div className="book-cover-container">
-    <img src={book.cover} alt={book.title} style={{height:'600px'}} />
-  </div>
-  <div className="book-info-container">
-    <h2 className="book-title-detail">{book.title}</h2>
-    <p className="book-detail"><strong>Author:</strong> {book.author}</p>
-    <p className="book-detail"><strong>Genre:</strong> {book.genre}</p>
-    <p className="book-detail"><strong>Languages:</strong> {book.languages}</p>
-    <p className="book-detail"><strong>Publication Date:</strong> {book.publicationDate}</p>
-    <p className="book-detail"><strong>Page Count:</strong> {book.pageCount}</p>
-    <p className="book-detail"><strong>Publisher:</strong> {book.publisher}</p>
-    <p className="book-detail"><strong>Description:</strong> <span dangerouslySetInnerHTML={{ __html: book.description }} /></p>
-
-    {book.previewLink && (
-      <div className="preview-link">
-        <a href={book.previewLink} target="_blank" rel="noopener noreferrer">
-          View Book Preview
-        </a>
+      <div className="book-cover-container">
+        <img src={book.cover} alt={book.title} style={{ height: '600px' }} />
       </div>
-    )}
+      <div className="book-info-container">
+        <h2 className="book-title-detail">{book.title}</h2>
+        <p><strong>Author:</strong> {book.author}</p>
+        <p><strong>Genre:</strong> {book.genre}</p>
+        <p><strong>Languages:</strong> {book.languages}</p>
+        <p><strong>Publication Date:</strong> {book.publicationDate}</p>
+        <p><strong>Page Count:</strong> {book.pageCount}</p>
+        <p><strong>Publisher:</strong> {book.publisher}</p>
+        <p><strong>Description:</strong> <span dangerouslySetInnerHTML={{ __html: book.description }} /></p>
 
-    <button onClick={() => setShowCollectionForm(!showCollectionForm)}>
-      {showCollectionForm ? "Cancel" : "Add to Collection"}
-    </button>
-
-    {showCollectionForm && (
-      <div className="collections-list">
-        {collections.length > 0 ? (
-          collections.map((collection) => (
-            <div key={collection._id}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={selectedCollections.includes(collection._id)}
-                  onChange={() => toggleCollectionSelection(collection._id)}
-                />
-                {collection.collection_name}
-              </label>
-            </div>
-          ))
-        ) : (
-          <p>No collections available. Create a new collection.</p>
+        {book.previewLink && (
+          <a href={book.previewLink} target="_blank" rel="noopener noreferrer">
+            View Book Preview
+          </a>
         )}
-        <button onClick={handleAddBookToCollections}>Add to Selected Collections</button>
+
         <button onClick={() => {
-          if(localStorage.getItem('token')!=null)
-          setShowNewCollectionForm(true);
-          
-        }}>Create New Collection</button>
-      </div>
-    )}
+          if (localStorage.getItem("token")) setShowCollectionForm((prev) => !prev);
+          else {
+            alert("You need to login to add this book to a collection");
+            navigate("/auth");
+          }
+        }}>
+          {showCollectionForm ? "Cancel" : "Add to Collection"}
+        </button>
 
-    {showNewCollectionForm && (
-      <div className="new-collection-form">
-        <input
-          type="text"
-          placeholder="Collection Name"
-          value={newCollectionForm.collection_name}
-          onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
-        />
-        <textarea
-          placeholder="Description"
-          value={newCollectionForm.description}
-          onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
-        />
-        <select
-          value={newCollectionForm.visibility}
-          onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
-        >
-          <option value="private">Private</option>
-          <option value="public">Public</option>
-        </select>
-        <button onClick={handleCreateNewCollection}>Create Collection</button>
-      </div>
-    )}
+        {showCollectionForm && (
+          <div className="collections-list">
+            {collections.length > 0 ? (
+              collections.map((collection) => (
+                <label key={collection._id}>
+                  <input
+                    type="checkbox"
+                    checked={selectedCollections.includes(collection._id)}
+                    onChange={() => toggleCollectionSelection(collection._id)}
+                  />
+                  {collection.collection_name}
+                </label>
+              ))
+            ) : (
+              <p>No collections available. Create a new collection.</p>
+            )}
+            <button onClick={handleAddBookToCollections}>Add to Selected Collections</button>
+            <button onClick={() => setShowNewCollectionForm(true)}>Create New Collection</button>
+          </div>
+        )}
 
-    {readOnlineUrl && (
-      <div className="read-online-modal-overlay">
-        <div className="read-online-modal">
-          <button onClick={() => setReadOnlineUrl(null)}>&times;</button>
-          <iframe src={readOnlineUrl} title="Read Online" className="read-online-iframe" />
-        </div>
+        {showNewCollectionForm && (
+          <div className="new-collection-form">
+            <input
+              type="text"
+              placeholder="Collection Name"
+              value={newCollectionForm.collection_name}
+              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
+            />
+            <textarea
+              placeholder="Description"
+              value={newCollectionForm.description}
+              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
+            />
+            <select
+              value={newCollectionForm.visibility}
+              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
+            >
+              <option value="private">Private</option>
+              <option value="public">Public</option>
+            </select>
+            <button onClick={handleCreateNewCollection}>Create Collection</button>
+          </div>
+        )}
       </div>
-    )}
-  </div>
-</div>
-
+    </div>
   );
 };
 
