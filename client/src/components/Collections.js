@@ -1,4 +1,3 @@
-// Collections.js
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './styles/Collections.css';
@@ -17,9 +16,9 @@ const Collections = () => {
         });
         const data = await response.json();
         setCollections(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching collections:", error);
-      } finally {
         setLoading(false);
       }
     };
@@ -27,27 +26,29 @@ const Collections = () => {
     fetchCollections();
   }, []);
 
-  const handleCollectionClick = (collectionId) => {
-    navigate(`/collections/${collectionId}`);
-  };
+  if (loading) return <p>Loading collections...</p>;
 
   return (
-    <div className="collections-page">
+    <div className="collections-container">
       <h2>Your Collections</h2>
-      {loading ? (
-        <p>Loading collections...</p>
-      ) : (
-        <div className="collections-list">
+      {collections.length > 0 ? (
+        <div className="collection-list">
           {collections.map((collection) => (
-            <button
-              key={collection._id}
-              onClick={() => handleCollectionClick(collection._id)}
-              className="collection-item"
-            >
-              {collection.collection_name}
-            </button>
+            <div key={collection._id} className="collection-card">
+              <h3>{collection.collection_name}</h3>
+              <p>{collection.description}</p>
+              <p><strong>Visibility:</strong> {collection.visibility}</p>
+              <button
+                onClick={() => navigate(`/collections/${collection._id}`)}
+                className="view-books-button"
+              >
+                View Books
+              </button>
+            </div>
           ))}
         </div>
+      ) : (
+        <p>No collections found. Create a new one!</p>
       )}
     </div>
   );
