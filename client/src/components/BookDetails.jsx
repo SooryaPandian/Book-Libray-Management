@@ -170,27 +170,31 @@ const BookDetails = () => {
 )}
 
 
-        {showNewCollectionForm && (
-          <div className="new-collection-form">
-            <input
-              type="text"
-              placeholder="Collection Name"
-              value={newCollectionForm.collection_name}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
-            />
-            <textarea
-              placeholder="Description"
-              value={newCollectionForm.description}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
-            />
-            <select
-              value={newCollectionForm.visibility}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
-            >
-              <option value="private">Private</option>
-              <option value="public">Public</option>
-            </select>
-            <button onClick={handleCreateNewCollection}>Create Collection</button>
+{showNewCollectionForm && (
+          <div className="modal-overlay" onClick={() => setShowNewCollectionForm(false)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h3>Create New Collection</h3>
+              <input
+                type="text"
+                placeholder="Collection Name"
+                value={newCollectionForm.collection_name}
+                onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
+              />
+              <textarea
+                placeholder="Description"
+                value={newCollectionForm.description}
+                onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
+              />
+              <select
+                value={newCollectionForm.visibility}
+                onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
+              >
+                <option value="private">Private</option>
+                <option value="public">Public</option>
+              </select>
+              <button onClick={handleCreateNewCollection}>Create Collection</button>
+              <button className="modal-close" onClick={() => setShowNewCollectionForm(false)}>CLOSE</button>
+            </div>
           </div>
         )}
       </div>
