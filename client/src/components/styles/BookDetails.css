@@ -115,3 +115,56 @@ button:hover {
 .close-modal-btn:hover {
   background: #ff3030;
 }
+.collections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.collection-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.collection-item:hover {
+  background-color: #e8f0fe;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.collection-checkbox {
+  margin-right: 12px;
+  transform: scale(1.2);
+  accent-color: #4a90e2; /* Customize the color of the checkbox */
+}
+
+.collection-label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.add-collection-button,
+.create-new-collection-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-collection-button:hover,
+.create-new-collection-button:hover {
+  background-color: #357ABD;
+}
