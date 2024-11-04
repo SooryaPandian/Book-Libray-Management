@@ -144,25 +144,31 @@ const BookDetails = () => {
         </button>
 
         {showCollectionForm && (
-          <div className="collections-list">
-            {collections.length > 0 ? (
-              collections.map((collection) => (
-                <label key={collection._id}>
-                  <input
-                    type="checkbox"
-                    checked={selectedCollections.includes(collection._id)}
-                    onChange={() => toggleCollectionSelection(collection._id)}
-                  />
-                  {collection.collection_name}
-                </label>
-              ))
-            ) : (
-              <p>No collections available. Create a new collection.</p>
-            )}
-            <button onClick={handleAddBookToCollections}>Add to Selected Collections</button>
-            <button onClick={() => setShowNewCollectionForm(true)}>Create New Collection</button>
-          </div>
-        )}
+  <div className="collections-list">
+    {collections.length > 0 ? (
+      collections.map((collection) => (
+        <div
+          key={collection._id}
+          className="collection-item"
+          onClick={() => toggleCollectionSelection(collection._id)}
+        >
+          <input
+            type="checkbox"
+            className="collection-checkbox"
+            checked={selectedCollections.includes(collection._id)}
+            onChange={() => toggleCollectionSelection(collection._id)}
+          />
+          <span className="collection-label">{collection.collection_name}</span>
+        </div>
+      ))
+    ) : (
+      <p>No collections available. Create a new collection.</p>
+    )}
+    <button onClick={handleAddBookToCollections} className="add-collection-button">Add to Selected Collections</button>
+    <button onClick={() => setShowNewCollectionForm(true)} className="create-new-collection-button">Create New Collection</button>
+  </div>
+)}
+
 
         {showNewCollectionForm && (
           <div className="new-collection-form">
