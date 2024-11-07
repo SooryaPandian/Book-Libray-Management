@@ -1,58 +1,50 @@
-import React, { useEffect, useState } from "react";
-import collectionService from "../services/collectionService"; // Ensure you have collectionService for API calls
-import NewCollectionForm from "./NewCollectionForm"; // Import form component for creating new collections
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './styles/Profile.css';
 
 const Profile = () => {
-  const [collections, setCollections] = useState([]);
-  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [user, setUser] = useState(null); // Initially set to null to indicate no data
+  const [loading, setLoading] = useState(true); // Loading state for user data
 
-  // Fetch user's collections when the component mounts
   useEffect(() => {
-    const fetchCollections = async () => {
+    const fetchUserProfile = async () => {
       try {
-        const response = await collectionService.getCollections();
-        setCollections(response);
+        const token = localStorage.getItem("token"); // Assume token is stored in localStorage after login
+        const response = await axios.get("/api/user/profile", {
+          headers: {
+            "x-auth-token": token,
+          },
+        });
+        setUser(response.data); // Update user data
+        setLoading(false); // Stop loading
       } catch (error) {
-        console.error("Error fetching collections:", error);
+        console.error("Error fetching user data:", error);
+        setLoading(false); // Stop loading even if there's an error
       }
     };
-    fetchCollections();
+
+    fetchUserProfile();
   }, []);
 
-  // Handle toggle of the create collection form
-  const handleCreateCollection = async (newCollection) => {
-    try {
-      const createdCollection = await collectionService.createCollection(newCollection);
-      setCollections([...collections, createdCollection]);
-      setShowCreateForm(false); // Close the form after creation
-    } catch (error) {
-      console.error("Error creating collection:", error);
-    }
+  const handleEditProfile = () => {
+    // Profile editing logic
+    alert("Edit Profile Clicked");
   };
 
-  return (
-    <div>
-      <h2>Your Collections</h2>
-      {collections.length > 0 ? (
-        <div className="collections-list">
-          {collections.map((collection) => (
-            <div key={collection._id} className="collection-item">
-              <h3>{collection.collection_name}</h3>
-              <p>{collection.description}</p>
-              <p>Visibility: {collection.visibility}</p>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div>
-          <p>You have no collections yet.</p>
-          <button onClick={() => setShowCreateForm(true)}>Create New Collection</button>
-        </div>
-      )}
+  if (loading) return <p>Loading...</p>; // Loading indicator
 
-      {showCreateForm && (
-        <NewCollectionForm onCreateCollection={handleCreateCollection} />
-      )}
+  if (!user) return <p>Error loading profile information.</p>; // Error handling if no user data
+
+  return (
+    <div className="profile-top-section">
+      <div className="profile-picture">
+        <img src={user.profilePic || "https://via.placeholder.com/100"} alt="Profile" /> {/* Default picture if none */}
+      </div>
+      <div className="profile-info">
+        <h2>{user.user_name}</h2>
+        <p>{user.email}</p>
+        <button onClick={handleEditProfile} className="edit-profile-button">Edit Profile</button>
+      </div>
     </div>
   );
 };
