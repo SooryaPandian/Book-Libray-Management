@@ -1,90 +1,74 @@
 /* CollectionDetail.css */
 
 .collection-detail-page {
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-    font-family: Arial, sans-serif;
-    color: #333;
-    margin-top: 5%;
-  }
-  
-  .collection-detail-page h2 {
-    font-size: 28px;
-    margin-bottom: 10px;
-    color: #2c3e50;
-    text-align: center;
-  }
-  
-  .collection-detail-page button {
-    display: inline-block;
-    padding: 8px 16px;
-    margin: 10px 0;
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .collection-detail-page button:hover {
-    background-color: #2980b9;
-  }
-  
-  .collection-detail-page p {
-    font-size: 16px;
-    margin-top: 10px;
-    color: #555;
-    text-align: center;
-  }
-  
-  /* Book list styling */
-  .books-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .books-list p {
-    font-size: 18px;
-    color: #888;
-    text-align: center;
-    width: 100%;
-  }
-  
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin-top: 5%;
+}
+
+.collection-detail-page h2 {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  text-align: center;
+}
+
+.collection-detail-page button {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 10px 0;
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.collection-detail-page button:hover {
+  background-color: #2980b9;
+}
+
+.collection-detail-page p {
+  font-size: 16px;
+  margin-top: 10px;
+  color: #555;
+  text-align: center;
+}
+
+/* CollectionDetail.css */
+
+/* Book list container */
+.books-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust columns for responsiveness */
+  gap: 20px; /* Increase gap to prevent overlap */
+  justify-content: center;
+  margin-top: 20px;
+  padding: 0 20px; /* Add padding to prevent cards from sticking to the edges */
+}
+
 /* BookCard component styling */
 .book-card {
-  width: 600px; /* Increase width */
-  padding: 16px; /* Increase padding */
+  max-width: 200px; /* Set a max-width for each card */
+  padding: 16px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
   text-align: center;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.2s ease;
 }
 
-  .book-card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .book-card img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-  }
-  
-  .book-card h3 {
-    font-size: 16px;
-    margin: 8px 0;
-    color: #333;
-  }
-  
-  .book-card p {
-    font-size: 14px;
-    color: #777;
-  }
-  
+.book-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.book-card img {
+  max-width: 100%; /* Ensure the image doesn’t exceed card width */
+  height: auto;
+  border-radius: 4px;
+}
