@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './styles/Navbar.css';
+import './styles/SearchBar.css'; // Import search styles
 import { Link } from 'react-router-dom';
 
 const Navbar = ({ onSearch }) => {
@@ -34,29 +35,31 @@ const Navbar = ({ onSearch }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to={"/"} ><div className="app-name">MyBookApp</div></Link>
+        <Link to="/" className="app-name">MyBookApp</Link>
         <Link to="/collections" className="nav-link">📚 Collections</Link>
       </div>
       <div className="navbar-center">
-        <input
-          type="text"
-          placeholder="Search for books"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="search-bar"
-        />
-        <button onClick={handleSearch} className="search-button">
-          Search
-        </button>
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Search for books"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="search-input" // Updated for styling consistency
+          />
+          <button onClick={handleSearch} className="search-button">
+            Search
+          </button>
+        </div>
       </div>
       <div className="navbar-right">
         {isLoggedIn ? (
           <>
-            <a href="/profile" className="nav-link">👤 Profile</a>
-            <button onClick={handleUserLogout} className="nav-link">🔓 Logout</button>
+            <Link to="/profile" className="nav-link">👤 Profile</Link>
+            <button onClick={handleUserLogout} className="nav-link logout-button">🔓 Logout</button>
           </>
         ) : (
-          <a href="/auth" className="nav-link">🔒 Login</a>
+          <Link to="/auth" className="nav-link">🔒 Login</Link>
         )}
       </div>
     </nav>
