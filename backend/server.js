@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth");
 const collectionRoutes = require("./routes/collection");
-
+const userRoutes = require('./routes/users');
 dotenv.config();
 
 const app = express();
@@ -30,6 +30,7 @@ app.use(cors(corsOptions));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/collections", collectionRoutes);
+app.use('/api/user', userRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
