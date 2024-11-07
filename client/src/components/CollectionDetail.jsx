@@ -49,6 +49,26 @@ const CollectionDetail = () => {
     fetchCollectionDetails();
   }, [collectionId]);
 
+  const handleDeleteBook = async (bookId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:5000/api/collections/${collectionId}/books/${bookId}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+        alert("Book removed from collection successfully!");
+      } else {
+        alert("Failed to remove book from collection.");
+      }
+    } catch (error) {
+      console.error("Error deleting book:", error);
+      alert("An error occurred while trying to delete the book.");
+    }
+  };
+
   const handleCopyUrl = () => {
     const collectionUrl = `${window.location.origin}/collections/${collectionId}`;
     navigator.clipboard.writeText(collectionUrl);
@@ -66,7 +86,12 @@ const CollectionDetail = () => {
       ) : (
         <div className="books-list">
           {books.length > 0 ? (
-            books.map((book) => <BookCard key={book.id} book={book} />)
+            books.map((book) => (
+              <div key={book.id} className="book-item">
+                <BookCard book={book} />
+                <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
+              </div>
+            ))
           ) : (
             <p>No books in this collection.</p>
           )}
