@@ -79,10 +79,10 @@ function LoginSignup({ setIsLoggedIn }) {
     <div className={`loginSignupContainer ${isSignUpMode ? "sign-up-mode" : ""}`}>
       {/* Sign In Form Section */}
       <div className="form-container sign-in-container">
-        <h1>Sign In</h1>
+        <h1>Login</h1>
         <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
-        <button onClick={handleLogin}>Sign In</button>
+        <button onClick={handleLogin}>Login</button>
         {errorMessage && <p className="error">{errorMessage}</p>}
         {successMessage && <p className="success">{successMessage}</p>}
       </div>
@@ -94,7 +94,7 @@ function LoginSignup({ setIsLoggedIn }) {
         <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleInputChange} />
         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleInputChange} />
         <input type="text" name="genres" placeholder="Favorite Genres (comma-separated)" value={formData.genres} onChange={handleInputChange} />
-        <button onClick={handleSignup}>Sign Up</button>
+        <button onClick={handleSignup}>Create Account</button>
         {errorMessage && <p className="error">{errorMessage}</p>}
         {successMessage && <p className="success">{successMessage}</p>}
       </div>
