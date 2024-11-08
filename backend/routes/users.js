@@ -1,13 +1,10 @@
-// In routes/users.js
-
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const authenticate = require('../middleware/authenticate'); // JWT authentication middleware
 const bcrypt = require('bcrypt');
 
-
-// GET /api/user/profile
+// GET /api/users/profile
 router.get('/profile', authenticate, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password'); // Fetch user by ID, excluding password
@@ -19,7 +16,7 @@ router.get('/profile', authenticate, async (req, res) => {
   }
 });
 
-// Add to routes/users.js
+// PUT /api/users/profile
 router.put('/profile', authenticate, async (req, res) => {
   try {
     const { user_name, email, genres } = req.body;
@@ -39,10 +36,10 @@ router.put('/profile', authenticate, async (req, res) => {
   }
 });
 
-// PUT /api/users/profile/update-password
+// PUT /api/users/profile/password
 router.put('/profile/password', authenticate, async (req, res) => {
   try {
-    const { oldPassword, newPassword } = req.body;
+    const { currentPassword, newPassword } = req.body;
     
     // Retrieve the user from the database
     console.log("Got the password to change");
@@ -50,7 +47,7 @@ router.put('/profile/password', authenticate, async (req, res) => {
     if (!user) return res.status(404).json({ message: "User not found" });
 
     // Check if the old password is correct
-    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) return res.status(400).json({ message: "Incorrect current password" });
 
     // Hash the new password
@@ -64,6 +61,26 @@ router.put('/profile/password', authenticate, async (req, res) => {
   } catch (error) {
     console.error("Error updating password:", error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+// DELETE /api/users/profile (with authenticate middleware)
+router.delete('/profile', authenticate, async (req, res) => {
+  try {
+    const userId = req.user.id; // Assuming user ID is available in req.user after authentication middleware
+    console.log("Account Deleting ....");
+
+    // Delete user from the database using the extracted user ID
+    const deletedUser = await User.findByIdAndDelete(userId);
+    
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting account:", error);
+    res.status(500).json({ message: "Error deleting account" });
   }
 });
 
