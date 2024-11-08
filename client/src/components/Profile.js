@@ -15,6 +15,7 @@ const Profile = () => {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -87,6 +88,26 @@ const Profile = () => {
     }
   };
 
+
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await axios.delete('http://localhost:5000/api/users/profile', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+        withCredentials: true,
+      });
+      alert(response.data.message);
+      localStorage.removeItem('token');
+      navigate('/auth');
+    } catch (error) {
+      console.error("Error deleting account:", error);
+      alert("There was an issue deleting your account.");
+    } finally {
+      setDeleteModalOpen(false); // Close modal
+    }
+  };
+
   if (!user) return <p>Loading...</p>;
 
   const renderContent = () => {
@@ -138,7 +159,10 @@ const Profile = () => {
               Update Password
             </button>
             <button className="account-button" onClick={handleLogout}>Logout</button>
-            <button className="account-button delete-account">Delete Account</button>
+            <button className="account-button delete-account" onClick={() => setDeleteModalOpen(true)}>
+  Delete Account
+</button>
+
           </div>
         );
       case 'collections':
@@ -228,6 +252,21 @@ const Profile = () => {
                 Cancel
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {isDeleteModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h3>Are you sure you want to delete your account?</h3>
+            <p>This action cannot be undone.</p>
+            <button onClick={handleDeleteAccount} className="delete-confirm-button">
+              Yes, Delete My Account
+            </button>
+            <button onClick={() => setDeleteModalOpen(false)} className="cancel-button">
+              Cancel
+            </button>
           </div>
         </div>
       )}
