@@ -7,9 +7,11 @@ import LoginSignupPage from './components/LoginSignupPage';
 import Collections from './components/Collections';
 import Profile from './components/Profile';
 import CollectionDetail from './components/CollectionDetail';
+import { useTheme } from './components/ThemeContext'; // Import useTheme
 import "./App.css";
 
 function App() {
+  const { theme, toggleTheme } = useTheme(); // Access theme and toggleTheme
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -49,11 +51,8 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
-        <Navbar
-          onSearch={fetchBooks}
-          handleLogout={handleLogout}
-        />
+      <div className={`App ${theme}`}>
+        <Navbar onSearch={fetchBooks} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home filteredBooks={filteredBooks} />} />
           <Route path="/book/:id" element={<BookDetails />} />
