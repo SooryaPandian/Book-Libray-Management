@@ -1,49 +1,132 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './styles/Profile.css';
+import Collection from './Collections'; // Import the Collection component
+
 
 const Profile = () => {
-  const [user, setUser] = useState(null); // Initially set to null to indicate no data
-  const [loading, setLoading] = useState(true); // Loading state for user data
+  const [user, setUser] = useState(null);
+  const [activeSection, setActiveSection] = useState('profile');
+  // const [collections, setCollections] = useState([]); // New state for collections
+  // const [loadingCollections, setLoadingCollections] = useState(false);
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    // Fetch user profile data
+    const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token"); // Assume token is stored in localStorage after login
-        const response = await axios.get("/api/user/profile", {
+        const response = await axios.get('http://localhost:5000/api/users/profile', {
           headers: {
-            "x-auth-token": token,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
+          withCredentials: true,
         });
-        setUser(response.data); // Update user data
-        setLoading(false); // Stop loading
+        setUser(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setLoading(false); // Stop loading even if there's an error
       }
     };
 
-    fetchUserProfile();
+    fetchUserData();
   }, []);
 
-  const handleEditProfile = () => {
-    // Profile editing logic
-    alert("Edit Profile Clicked");
+  // Function to fetch user's collections
+  // const fetchUserCollections = async () => {
+  //   setLoadingCollections(true);
+  //   try {
+  //     const response = await axios.get('http://localhost:5000/api/collections', {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem('token')}`,
+  //       },
+  //       withCredentials: true,
+  //     });
+  //     setCollections(response.data); // Update collections with fetched data
+  //   } catch (error) {
+  //     console.error("Error fetching collections:", error);
+  //   } finally {
+  //     setLoadingCollections(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   // Fetch collections only when the Collections section is active
+  //   if (activeSection === 'collections') {
+  //     fetchUserCollections();
+  //   }
+  // }, [activeSection]);
+
+  if (!user) return <p>Loading...</p>;
+
+  // Render content based on active section
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'profile':
+        return (
+          <div className="content-section">
+            <h2>{user.user_name}</h2>
+            <p>Email: {user.email}</p>
+            <p>Genres: {user.genres.join(', ')}</p>
+            <button onClick={() => alert("Edit Profile Clicked")} className="edit-profile-button">
+              Edit Profile
+            </button>
+          </div>
+        );
+      case 'stats':
+        return (
+          <div className="content-section">
+            <h3>Reading Stats and Goals</h3>
+            <p><strong>Books Read:</strong> 15</p>
+            <p><strong>Currently Reading:</strong> 2</p>
+            <p><strong>To-Read List:</strong> 8</p>
+            <p><strong>Annual Goal Progress:</strong> 75%</p>
+          </div>
+        );
+      case 'reviews':
+        return (
+          <div className="content-section">
+            <h3>Reviews and Favorites</h3>
+            <p><strong>Reviews & Ratings:</strong> View your recent reviews</p>
+            <p><strong>Recommendations:</strong> Based on your ratings</p>
+            <p><strong>Bookmarked Books:</strong> 10</p>
+          </div>
+        );
+      case 'settings':
+        return (
+          <div className="content-section">
+            <h3>Personalized Settings</h3>
+            <p><strong>Genres:</strong> {user.genres.join(", ")}</p>
+            <p><strong>Themes:</strong> Dark Mode</p>
+            <p><strong>Notifications:</strong> Enabled</p>
+          </div>
+        );
+      case 'actions':
+        return (
+          <div className="content-section">
+            <h3>Account Actions</h3>
+            <button className="account-button">Update Password</button>
+            <button className="account-button">Logout</button>
+            <button className="account-button delete-account">Delete Account</button>
+          </div>
+        );
+      case 'collections':
+        return <Collection userId={user.id} />;
+      default:
+        return null;
+    }
   };
 
-  if (loading) return <p>Loading...</p>; // Loading indicator
-
-  if (!user) return <p>Error loading profile information.</p>; // Error handling if no user data
-
   return (
-    <div className="profile-top-section">
-      <div className="profile-picture">
-        <img src={user.profilePic || "https://via.placeholder.com/100"} alt="Profile" /> {/* Default picture if none */}
+    <div className="profile-container">
+      <div className="sidebar">
+        <button onClick={() => setActiveSection('profile')}>Profile</button>
+        <button onClick={() => setActiveSection('stats')}>Reading Stats & Goals</button>
+        <button onClick={() => setActiveSection('reviews')}>Reviews & Favorites</button>
+        <button onClick={() => setActiveSection('collections')}>Collections</button>
+        <button onClick={() => setActiveSection('settings')}>Personalized Settings</button>
+        <button onClick={() => setActiveSection('actions')}>Account Actions</button>
       </div>
-      <div className="profile-info">
-        <h2>{user.user_name}</h2>
-        <p>{user.email}</p>
-        <button onClick={handleEditProfile} className="edit-profile-button">Edit Profile</button>
+
+      <div className="main-content">
+        {renderContent()}
       </div>
     </div>
   );
