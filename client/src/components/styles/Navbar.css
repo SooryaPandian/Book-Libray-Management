@@ -57,11 +57,28 @@
   margin-right: 1rem; /* Adjust spacing for better alignment */
 }
 
-/* .signup-icon,
-.login-icon {
-  margin-left: 8px;
-  font-size: 18px;
-} */
+/* New Styles for Theme Toggle Button */
+.theme-toggle-button {
+  padding: 8px 16px;
+  background-color: #34495e;
+  border: 1px solid #ecf0f1;
+  border-radius: 20px;
+  color: #ecf0f1;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-button:hover {
+  background-color: #1abc9c;
+  color: white;
+}
+
+.theme-toggle-button:focus {
+  outline: none;
+}
 
 /* Media query for smaller screens */
 @media (max-width: 768px) {
@@ -86,5 +103,11 @@
 
   .search-bar input {
       width: 100%; /* Full width on mobile */
+  }
+
+  /* Adjust theme toggle button on smaller screens */
+  .theme-toggle-button {
+      font-size: 12px;
+      padding: 6px 12px;
   }
 }
