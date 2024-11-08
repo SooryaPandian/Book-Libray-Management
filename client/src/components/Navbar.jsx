@@ -6,21 +6,29 @@ import { Link } from 'react-router-dom';
 const Navbar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+  const [isDarkMode, setIsDarkMode] = useState(false); // State to manage the theme
 
   useEffect(() => {
-    // Event listener for storage changes
-    const handleStorageChange = () => {
-      setIsLoggedIn(!!localStorage.getItem('token'));
-    };
-
-    // Listen for storage events
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      // Clean up the event listener on component unmount
-      window.removeEventListener('storage', handleStorageChange);
-    };
+    // Check for saved theme preference in localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+    }
   }, []);
+
+  useEffect(() => {
+    // Update the body class based on the current theme
+    if (isDarkMode) {
+      document.body.classList.add('dark-theme');
+      document.body.classList.remove('light-theme');
+    } else {
+      document.body.classList.add('light-theme');
+      document.body.classList.remove('dark-theme');
+    }
+    
+    // Save the theme preference to localStorage
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
 
   const handleSearch = () => {
     onSearch(query);
@@ -30,6 +38,10 @@ const Navbar = ({ onSearch }) => {
     localStorage.removeItem('token'); // Remove token on logout
     setIsLoggedIn(false); // Update state immediately in the current tab
     window.location.href = '/auth'; // Navigate to login page
+  };
+
+  const toggleTheme = () => {
+    setIsDarkMode(prevMode => !prevMode); // Toggle between dark and light mode
   };
 
   return (
@@ -55,6 +67,9 @@ const Navbar = ({ onSearch }) => {
         {isLoggedIn ? (
           <>
             <Link to="/profile" className="nav-link">👤 Profile</Link>
+        <button onClick={toggleTheme} className="theme-toggle-button">
+          {isDarkMode ? '🌙 Dark Mode' : '🌞 Light Mode'}
+        </button>
             <button onClick={handleUserLogout} className="nav-link logout-button">🔓 Logout</button>
           </>
         ) : (
