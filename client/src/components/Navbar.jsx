@@ -36,7 +36,6 @@ const Navbar = ({ onSearch }) => {
     <nav className="navbar">
       <div className="navbar-left">
         <Link to="/" className="app-name">MyBookApp</Link>
-        <Link to="/collections" className="nav-link">📚 Collections</Link>
       </div>
       <div className="navbar-center">
         <div className="search-bar">
