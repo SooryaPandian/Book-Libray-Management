@@ -38,7 +38,7 @@ function App() {
         cover: book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150',
         year: book.volumeInfo.publishedDate || "Unknown Year",
       }));
-      setBooks(fetchedBooks);
+      // setBooks(fetchedBooks);
       setFilteredBooks(fetchedBooks);
     } catch (error) {
       console.error("Error fetching books:", error);
