@@ -50,10 +50,10 @@ router.post("/", authenticate, async (req, res) => {
 
 // Get User Collections
 router.get("/", authenticate, async (req, res) => {
-  console.log("Get Collections: Request received for user ID:", req.userId);
+  // console.log("Get Collections: Request received for user ID:", req.userId);
   try {
     const collections = await BookCollection.find({ user_id: req.userId });
-    console.log("Get Collections: Collections fetched:", collections);
+    // console.log("Get Collections: Collections fetched:", collections);
     res.json(collections);
   } catch (error) {
     console.log("Get Collections: Error fetching collections:", error.message);
@@ -61,37 +61,58 @@ router.get("/", authenticate, async (req, res) => {
   }
 });
 
-router.get('/:collectionId/books', async (req, res) => {
-  const { collectionId } = req.params;
+// router.get('/:collectionId/books', async (req, res) => {
+//   const { collectionId } = req.params;
 
-  try {
-    const collection = await Collection.findById(collectionId).populate('books'); // Assuming 'books' is the field storing book references
-    if (!collection) {
-      return res.status(404).json({ message: "Collection not found" });
-    }
-    res.json({ books: collection.books });
-  } catch (error) {
-    console.error("Error fetching books for collection:", error);
-    res.status(500).json({ message: "Error fetching books for collection" });
-  }
-});
+//   try {
+//     const collection = await Collection.findById(collectionId).populate('books'); // Assuming 'books' is the field storing book references
+//     if (!collection) {
+//       return res.status(404).json({ message: "Collection not found" });
+//     }
+//     res.json({ books: collection.books });
+//   } catch (error) {
+//     console.error("Error fetching books for collection:", error);
+//     res.status(500).json({ message: "Error fetching books for collection" });
+//   }
+// });
 
 // Get a Collection by ID
+// Get a Collection by ID with access control
+// Get a Collection by ID
+// Get a Collection by ID
 router.get("/:id", async (req, res) => {
-  console.log("Get Collection by ID: Request received for collection ID:", req.params.id);
   try {
     const collection = await BookCollection.findById(req.params.id);
     if (!collection) {
-      console.log("Get Collection by ID: Collection not found");
       return res.status(404).json({ message: "Collection not found" });
     }
-    console.log("Get Collection by ID: Collection fetched:", collection);
-    res.json(collection);
+      const token = req.headers.authorization?.split(' ')[1]; // Extract token from Authorization header
+      
+      console.log("request received inside")
+      try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.userId = decoded.userId;
+      } catch (err) {}
+      
+  
+    // Determine if the user is the owner of the collection
+    const isOwner = collection.user_id.toString() === req.userId;
+    console.log(isOwner);
+    // If it's private and the user is not the owner, deny access
+    if (collection.visibility === 'private' && !isOwner) {
+      return res.status(403).json({ message: "This collection is private and can't be accessed." });
+    }
+    // Send the collection and ownership info
+    res.json({ collection, isOwner });
   } catch (error) {
-    console.log("Get Collection by ID: Error fetching collection:", error.message);
+    console.log("Error fetching collection:", error.message);
     res.status(500).json({ message: "Error fetching collection", error });
   }
 });
+
+
+
+
 // Update Collection to Add Book ID
 router.put("/:id", authenticate, async (req, res) => {
   console.log("Update Collection: Adding book to collection ID:", req.params.id);
