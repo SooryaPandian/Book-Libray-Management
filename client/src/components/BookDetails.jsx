@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from './Loading';
+import { useTheme } from '../components/ThemeContext'; // Import useTheme
 import './styles/BookDetails.css';
 
 const BookDetails = () => {
@@ -13,6 +14,8 @@ const BookDetails = () => {
   const [newCollectionForm, setNewCollectionForm] = useState({ collection_name: "", description: "", visibility: "private" });
   const [showNewCollectionForm, setShowNewCollectionForm] = useState(false);
   const navigate = useNavigate();
+  
+  const { theme } = useTheme(); // Get the current theme from context
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -73,7 +76,7 @@ const BookDetails = () => {
         })
       );
       alert("Book added to selected collections successfully!");
-      setSelectedCollections([]); // Clear selections after adding
+      setSelectedCollections([]);
       setShowCollectionForm(false);
     } catch (error) {
       console.error("Error adding book to collections:", error);
@@ -113,12 +116,12 @@ const BookDetails = () => {
   if (!book) return <p>Book not found</p>;
 
   return (
-    <div className="book-details-container">
+    <div className={`book-details-container ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
       <div className="book-cover-container">
         <img src={book.cover} alt={book.title} style={{ height: '600px' }} />
       </div>
       <div className="book-info-container">
-        <h2 className="book-title-detail">{book.title}</h2>
+        <h2 className="book-title-detail" style={{ color: theme === 'dark' ? '#FFF' : '#000' }}>{book.title}</h2>
         <p><strong>Author:</strong> {book.author}</p>
         <p><strong>Genre:</strong> {book.genre}</p>
         <p><strong>Languages:</strong> {book.languages}</p>
@@ -144,33 +147,32 @@ const BookDetails = () => {
         </button>
 
         {showCollectionForm && (
-  <div className="collections-list">
-    {collections.length > 0 ? (
-      collections.map((collection) => (
-        <div
-          key={collection._id}
-          className="collection-item"
-          onClick={() => toggleCollectionSelection(collection._id)}
-        >
-          <input
-            type="checkbox"
-            className="collection-checkbox"
-            checked={selectedCollections.includes(collection._id)}
-            onChange={() => toggleCollectionSelection(collection._id)}
-          />
-          <span className="collection-label">{collection.collection_name}</span>
-        </div>
-      ))
-    ) : (
-      <p>No collections available. Create a new collection.</p>
-    )}
-    <button onClick={handleAddBookToCollections} className="add-collection-button">Add to Selected Collections</button>
-    <button onClick={() => setShowNewCollectionForm(true)} className="create-new-collection-button">Create New Collection</button>
-  </div>
-)}
+          <div className="collections-list">
+            {collections.length > 0 ? (
+              collections.map((collection) => (
+                <div
+                  key={collection._id}
+                  className="collection-item"
+                  onClick={() => toggleCollectionSelection(collection._id)}
+                >
+                  <input
+                    type="checkbox"
+                    className="collection-checkbox"
+                    checked={selectedCollections.includes(collection._id)}
+                    onChange={() => toggleCollectionSelection(collection._id)}
+                  />
+                  <span className="collection-label">{collection.collection_name}</span>
+                </div>
+              ))
+            ) : (
+              <p>No collections available. Create a new collection.</p>
+            )}
+            <button onClick={handleAddBookToCollections} className="add-collection-button">Add to Selected Collections</button>
+            <button onClick={() => setShowNewCollectionForm(true)} className="create-new-collection-button">Create New Collection</button>
+          </div>
+        )}
 
-
-{showNewCollectionForm && (
+        {showNewCollectionForm && (
           <div className="modal-overlay" onClick={() => setShowNewCollectionForm(false)}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
               <h3>Create New Collection</h3>

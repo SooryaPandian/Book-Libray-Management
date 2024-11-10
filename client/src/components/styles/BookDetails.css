@@ -170,3 +170,19 @@
 .modal-content button:hover {
   background-color: #45a049 ;
 }
+.book-details-container.dark {
+  color: white !important;
+}
+
+.book-details-container.dark p,
+.book-details-container.dark h1,
+.book-details-container.dark h2,
+.book-details-container.dark h3,
+.book-details-container.dark h4,
+.book-details-container.dark h5,
+.book-details-container.dark h6,
+.book-details-container.dark span,
+.book-details-container.dark a,
+.book-details-container.dark strong {
+  color: white !important;
+}

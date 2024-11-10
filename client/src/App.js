@@ -7,11 +7,11 @@ import LoginSignupPage from './components/LoginSignupPage';
 import Collections from './components/Collections';
 import Profile from './components/Profile';
 import CollectionDetail from './components/CollectionDetail';
-import { useTheme } from './components/ThemeContext'; // Import useTheme
+import { useTheme } from './components/ThemeContext';
 import "./App.css";
 
 function App() {
-  const { theme, toggleTheme } = useTheme(); // Access theme and toggleTheme
+  const { theme, toggleTheme } = useTheme();
   const [books, setBooks] = useState([]);
   const [filteredBooks, setFilteredBooks] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -23,10 +23,10 @@ function App() {
     window.location.href = '/auth';
   };
 
-  const fetchBooks = async (query) => {
+  const fetchBooks = async (query = '', startIndex = 0, maxResults = 10) => {
     const url = query
-      ? `https://www.googleapis.com/books/v1/volumes?q=${query}`
-      : 'https://www.googleapis.com/books/v1/volumes?q=random';
+      ? `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}&maxResults=${maxResults}`
+      : `https://www.googleapis.com/books/v1/volumes?q=random&startIndex=${startIndex}&maxResults=${maxResults}`;
 
     try {
       const response = await fetch(url);
@@ -54,7 +54,7 @@ function App() {
       <div className={`App ${theme}`}>
         <Navbar onSearch={fetchBooks} handleLogout={handleLogout} />
         <Routes>
-          <Route path="/" element={<Home filteredBooks={filteredBooks} />} />
+          <Route path="/" element={<Home filteredBooks={filteredBooks} fetchBooks={fetchBooks} />} />
           <Route path="/book/:id" element={<BookDetails />} />
           <Route path="/auth" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/profile" element={<Profile />} />
