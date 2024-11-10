@@ -8,6 +8,8 @@ const CollectionDetail = () => {
   const [collection, setCollection] = useState(null);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isOwner, setIsOwner] = useState(false); // State for isOwner
 
   useEffect(() => {
     const fetchCollectionDetails = async () => {
@@ -16,11 +18,23 @@ const CollectionDetail = () => {
         const response = await fetch(`http://localhost:5000/api/collections/${collectionId}`, {
           headers: { "Authorization": `Bearer ${token}` },
         });
-        const data = await response.json();
-        setCollection(data);
 
+        if (response.status === 403) {
+          setError("This collection is private and can't be accessed.");
+          setLoading(false);
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch collection details.");
+        }
+
+        const data = await response.json();
+        setCollection(data.collection);  // Set collection data
+        setIsOwner(data.isOwner);         // Set ownership status
+        console.log(data.isOwner)
         const bookDetails = await Promise.all(
-          data.book_ids.map(async (bookId) => {
+          data.collection.book_ids.map(async (bookId) => {
             const bookResponse = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
             const bookData = await bookResponse.json();
             const bookInfo = bookData.volumeInfo;
@@ -41,6 +55,7 @@ const CollectionDetail = () => {
         setBooks(bookDetails);
       } catch (error) {
         console.error("Error fetching collection details:", error);
+        setError("An error occurred while fetching the collection details.");
       } finally {
         setLoading(false);
       }
@@ -77,25 +92,33 @@ const CollectionDetail = () => {
 
   return (
     <div className="collection-detail-page">
-      <h2>{collection?.collection_name}</h2>
-      <button onClick={handleCopyUrl}>Copy Collection URL</button>
-      <p>{collection?.description}</p>
-
-      {loading ? (
-        <p>Loading books...</p>
+      {error ? (
+        <p className="error-message">{error}</p>
       ) : (
-        <div className="books-list">
-          {books.length > 0 ? (
-            books.map((book) => (
-              <div key={book.id} className="book-item">
-                <BookCard book={book} />
-                <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
-              </div>
-            ))
+        <>
+          <h2>{collection?.collection_name}</h2>
+          <button onClick={handleCopyUrl}>Copy Collection URL</button>
+          <p>{collection?.description}</p>
+
+          {loading ? (
+            <p>Loading books...</p>
           ) : (
-            <p>No books in this collection.</p>
+            <div className="books-list">
+              {books.length > 0 ? (
+                books.map((book) => (
+                  <div key={book.id} className="book-item">
+                    <BookCard book={book} />
+                    {isOwner && (  // Only show the delete button if the user is the owner
+                      <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
+                    )}
+                  </div>
+                ))
+              ) : (
+                <p>No books in this collection.</p>
+              )}
+            </div>
           )}
-        </div>
+        </>
       )}
     </div>
   );
