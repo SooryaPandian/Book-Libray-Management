@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import BookCard from './BookCard';
 import './styles/CollectionDetail.css';
 import ConfirmationModal from './ConfirmationModal'; // Assuming this is the modal component
 
@@ -12,7 +11,7 @@ const CollectionDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
-  const [showModal, setShowModal] = useState(false);  // State for modal visibility
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchCollectionDetails = async () => {
@@ -101,7 +100,6 @@ const CollectionDetail = () => {
 
       if (response.ok) {
         alert("Book removed from collection!");
-        // Optionally, remove the book from the UI as well
         setBooks(books.filter((book) => book.id !== bookId));
       } else {
         alert("Failed to remove the book from the collection.");
@@ -134,13 +132,18 @@ const CollectionDetail = () => {
           {loading ? (
             <p>Loading books...</p>
           ) : (
+            
             <div className="books-list">
               {books.length > 0 ? (
                 books.map((book) => (
-                  <div key={book.id} className="book-item">
-                    <BookCard book={book} />
+                  <div key={book.id} className="book-card" onClick={() => navigate(`/book/${book.id}`, { state: { book } })}>
+                    <img src={book.cover} alt={book.title} className="book-cover" />
+                    <div className="book-info">
+                      <div className="book-title">{book.title}</div>
+                      <div className="book-author">Author: {book.author}</div>
+                    </div>
                     {isOwner && (
-                      <button onClick={() => handleRemoveBook(book.id)} className="remove-book-btn">
+                      <button onClick={(e) => { e.stopPropagation(); handleRemoveBook(book.id); }} className="remove-book-btn">
                         Remove from Collection
                       </button>
                     )}
@@ -154,7 +157,6 @@ const CollectionDetail = () => {
         </>
       )}
 
-      {/* Render the confirmation modal */}
       <ConfirmationModal
         showModal={showModal}
         onClose={closeConfirmationModal}
