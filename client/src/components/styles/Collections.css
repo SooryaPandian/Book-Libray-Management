@@ -51,7 +51,12 @@
   transition: background-color 0.2s;
   margin-top: 10px;
 }
-
+.delete-collection-button{
+  background-color: red;
+  margin-top: 20px;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
 .view-books-button:hover {
   background-color: #357abd;
 }
