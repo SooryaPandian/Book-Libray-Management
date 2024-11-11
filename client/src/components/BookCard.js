@@ -9,7 +9,7 @@ const BookCard = ({ book }) => {
 
   return (
     <div className="book-container">
-    <div className="book-card" onClick={handleBookClick}>
+    <div className="book-cards" onClick={handleBookClick}>
       <img src={book.cover} alt={book.title} className="book-cover" />
       <div className="book-info">
         <div className="book-title">{book.title}</div>
