@@ -6,7 +6,7 @@
   align-items: stretch; /* Ensures all cards align in height */
 }
 
-.book-card {
+.book-cards {
   background-position: center;
   background-size: cover;
   border-radius: 8px;
@@ -24,7 +24,7 @@
   align-items: center;
 }
 
-.book-card:hover {
+.book-cards:hover {
   transform: scale(1.05) rotateX(10deg) rotateY(10deg);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
@@ -38,7 +38,7 @@
   transition: transform 0.3s ease-in-out;
 }
 
-.book-card:hover .book-cover {
+.book-cards:hover .book-cover {
   transform: scale(1.1);
 }
 
@@ -64,5 +64,5 @@
 .book-author {
   font-size: 14px;
   margin: 5px 0;
-  color: #555;
+  color: black;
 }
