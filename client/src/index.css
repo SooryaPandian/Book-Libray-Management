@@ -1,3 +1,4 @@
+
 body, html {
   margin: 0;
   padding: 0;
@@ -11,7 +12,7 @@ body, html {
 /* Global styles for Light and Dark themes */
 body.light-theme {
   background-color: #ecf0f1;
-  color: #2c3e50;
+  /* color: #2c3e50; */
 }
 
 body.dark-theme {
