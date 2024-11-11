@@ -33,7 +33,7 @@
 }
 
 .collection-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 9px 8px 8px rgba(0, 0, 0, 0.1);
 }
 
 .collection-card h3 {
