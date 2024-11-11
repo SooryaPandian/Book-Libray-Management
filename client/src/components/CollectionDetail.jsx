@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './styles/CollectionDetail.css';
 import ConfirmationModal from './ConfirmationModal'; // Assuming this is the modal component
-
+import Footer from './Footer';
 const CollectionDetail = () => {
   const { collectionId } = useParams();
   const navigate = useNavigate();
@@ -162,6 +162,7 @@ const CollectionDetail = () => {
         onClose={closeConfirmationModal}
         onConfirm={handleDeleteCollection}
       />
+      <Footer />
     </div>
   );
 };
