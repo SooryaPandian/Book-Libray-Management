@@ -54,7 +54,7 @@
   display: flex;
   gap: 15px;
   align-items: center;
-  margin-right: 1rem; /* Adjust spacing for better alignment */
+  margin-right: 3rem; /* Adjust spacing for better alignment */
 }
 
 /* New Styles for Theme Toggle Button */
@@ -78,6 +78,43 @@
 
 .theme-toggle-button:focus {
   outline: none;
+}
+
+
+/* Updated styles for the search bar */
+.search-bar {
+  display: flex;
+  align-items: center;
+  /* background-color: #34495e; */
+  border-radius: 20px; /* Makes the search bar rounded */
+  padding: 5px;
+  width: 500px; /* Increases the width */
+  max-width: 100%; /* Ensures it doesn't exceed the container width */
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: black;
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 20px; /* Rounds input edges */
+  flex: 1;
+}
+
+.search-button {
+  padding: 8px 12px;
+  /* background-color: #1abc9c; */
+  color: black;
+  border: none;
+  border-radius: 20px; /* Matches the rounded edges */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background-color: #16a085; /* Slightly darker for hover effect */
 }
 
 /* Media query for smaller screens */
