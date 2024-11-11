@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import BookCard from './BookCard';
-import { useParams } from 'react-router-dom';
 import './styles/CollectionDetail.css';
+import ConfirmationModal from './ConfirmationModal'; // Assuming this is the modal component
 
 const CollectionDetail = () => {
   const { collectionId } = useParams();
+  const navigate = useNavigate();
   const [collection, setCollection] = useState(null);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isOwner, setIsOwner] = useState(false); // State for isOwner
+  const [isOwner, setIsOwner] = useState(false);
+  const [showModal, setShowModal] = useState(false);  // State for modal visibility
 
   useEffect(() => {
     const fetchCollectionDetails = async () => {
@@ -30,9 +33,9 @@ const CollectionDetail = () => {
         }
 
         const data = await response.json();
-        setCollection(data.collection);  // Set collection data
-        setIsOwner(data.isOwner);         // Set ownership status
-        console.log(data.isOwner)
+        setCollection(data.collection);
+        setIsOwner(data.isOwner);
+
         const bookDetails = await Promise.all(
           data.collection.book_ids.map(async (bookId) => {
             const bookResponse = await fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
@@ -64,31 +67,53 @@ const CollectionDetail = () => {
     fetchCollectionDetails();
   }, [collectionId]);
 
-  const handleDeleteBook = async (bookId) => {
+  const handleDeleteCollection = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/collections/${collectionId}/books/${bookId}`, {
+      const response = await fetch(`http://localhost:5000/api/collections/${collectionId}`, {
         method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` },
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
       });
 
       if (response.ok) {
-        setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
-        alert("Book removed from collection successfully!");
+        alert("Collection deleted successfully!");
+        navigate('/profile');
       } else {
-        alert("Failed to remove book from collection.");
+        alert("Failed to delete the collection.");
       }
     } catch (error) {
-      console.error("Error deleting book:", error);
-      alert("An error occurred while trying to delete the book.");
+      console.error("Error deleting collection:", error);
+      alert("An error occurred while trying to delete the collection.");
     }
   };
 
-  const handleCopyUrl = () => {
-    const collectionUrl = `${window.location.origin}/collections/${collectionId}`;
-    navigator.clipboard.writeText(collectionUrl);
-    alert("Collection URL copied to clipboard!");
+  const handleRemoveBook = async (bookId) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`http://localhost:5000/api/collections/${collectionId}/book/${bookId}`, {
+        method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        alert("Book removed from collection!");
+        // Optionally, remove the book from the UI as well
+        setBooks(books.filter((book) => book.id !== bookId));
+      } else {
+        alert("Failed to remove the book from the collection.");
+      }
+    } catch (error) {
+      console.error("Error removing book from collection:", error);
+      alert("An error occurred while trying to remove the book.");
+    }
   };
+
+  const showConfirmationModal = () => setShowModal(true);
+  const closeConfirmationModal = () => setShowModal(false);
 
   return (
     <div className="collection-detail-page">
@@ -97,8 +122,14 @@ const CollectionDetail = () => {
       ) : (
         <>
           <h2>{collection?.collection_name}</h2>
-          <button onClick={handleCopyUrl}>Copy Collection URL</button>
+          <button onClick={() => navigate(`/collections/${collectionId}`)}>Copy Collection URL</button>
           <p>{collection?.description}</p>
+
+          {isOwner && (
+            <button onClick={showConfirmationModal} className="delete-collection-btn">
+              Delete Collection
+            </button>
+          )}
 
           {loading ? (
             <p>Loading books...</p>
@@ -108,8 +139,10 @@ const CollectionDetail = () => {
                 books.map((book) => (
                   <div key={book.id} className="book-item">
                     <BookCard book={book} />
-                    {isOwner && (  // Only show the delete button if the user is the owner
-                      <button onClick={() => handleDeleteBook(book.id)}>Delete</button>
+                    {isOwner && (
+                      <button onClick={() => handleRemoveBook(book.id)} className="remove-book-btn">
+                        Remove from Collection
+                      </button>
                     )}
                   </div>
                 ))
@@ -120,6 +153,13 @@ const CollectionDetail = () => {
           )}
         </>
       )}
+
+      {/* Render the confirmation modal */}
+      <ConfirmationModal
+        showModal={showModal}
+        onClose={closeConfirmationModal}
+        onConfirm={handleDeleteCollection}
+      />
     </div>
   );
 };
