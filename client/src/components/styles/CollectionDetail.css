@@ -4,7 +4,7 @@
   margin: 0 auto;
   font-family: Arial, sans-serif;
   color: #333;
-  margin-top: 5%;
+  margin-top: 2.5%;
   padding: 20px;
   box-sizing: border-box;
 }
@@ -55,43 +55,38 @@
 
 /* Books list container using grid for a responsive layout */
 .books-list {
-  display: flex;
-  /* grid-template-columns: repeat(auto-fill, minmax(10px, 3fr)); Auto-fill with minimum 250px per card */
-  gap: 50px;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 30px;
   margin-top: 30px;
   padding: 0 20px;
   box-sizing: border-box;
 }
 
-/* Book item styling */
-.book-item {
+/* Book card container with white background */
+.book-cards {
+  background-color: white;
+  background-position: center;
+  background-size: cover;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(25% - 32px); /* Ensures four cards per row with consistent spacing */
+  max-width: 250px; /* Sets a maximum width for responsive design */
+  min-width: 220px; /* Minimum width */
+  box-sizing: border-box;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-sizing: border-box;
-}
-
-/* Book card styling with hover effect */
-.book-cards {
-  width: 100%;
-  margin: 0 20px;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  text-align: center;
-  box-sizing: border-box;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  cursor: pointer;
 }
 
 .book-cards:hover {
-  transform: scale(1.05) translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05) rotateX(10deg) rotateY(10deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
-
 /* Book cover image */
 .book-cards img {
   max-width: 100%;
@@ -151,7 +146,7 @@
   }
 
   .books-list {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust to 2-3 books per row */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Adjust to show 2-3 books per row */
   }
 
   .book-cards {
