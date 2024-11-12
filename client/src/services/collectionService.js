@@ -45,4 +45,13 @@ export const updateCollection = async (id, updatedData) => {
   return response.json();
 };
 
-export default { getUserCollections, createCollection };
+// Create a named export object
+const collectionService = {
+  getUserCollections,
+  createCollection,
+  getCollectionById,
+  updateCollection,
+};
+
+// Export the named object
+export default collectionService;

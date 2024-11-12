@@ -1,0 +1,121 @@
+/* Pagination Styles */
+.pagination-container {
+  margin-top: 60px; /* Space between pagination and other content */
+  margin-bottom: 3rem; /* Increased space below the pagination */
+  display: flex;
+  justify-content: center;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  margin: 0 10px; /* Increased space between buttons */
+  background-color: blueviolet;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #16a085;
+}
+
+.pagination span {
+  font-size: 14px;
+  color: #555;
+  margin: 0 10px;
+}
+
+/* Footer Styles */
+.footer {
+  background-color: #111827; /* Dark background */
+  color: white;
+  padding: 2rem; /* Increased padding */
+  text-align: center;
+  margin-top: 1.5rem; /* Added top margin for space */
+}
+
+.footer .quote {
+  font-size: 1.5rem; /* Reduced font size */
+  font-weight: 600;
+  margin-bottom: 1.5rem; /* Reduced margin */
+  font-style: italic;
+  color: #e5e7eb;
+}
+
+.footer .quote span {
+  color: #14b8a6; /* Teal color */
+}
+
+.footer .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4rem; /* Reduced gap between sections */
+  min-width: 1000px;
+  margin: 0 auto;
+}
+
+.footer .container div {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer .container h2 {
+  font-size: 1.4rem; /* Reduced font size */
+  font-weight: 700;
+  color: #14b8a6;
+  margin-bottom: 1rem; /* Reduced margin */
+}
+
+.footer .link {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 1.1rem; /* Reduced font size */
+  margin-bottom: 0.75rem; /* Reduced margin */
+  transition: color 0.3s ease;
+}
+
+.footer .link:hover {
+  color: #14b8a6; /* Highlight color on hover */
+}
+
+.footer .socialIcons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem; /* Reduced gap between icons */
+  /* margin-top: 1rem; */
+}
+
+.footer .socialIcons a {
+  color: #d1d5db;
+  font-size: 1.5rem; /* Reduced font size */
+  transition: color 0.3s ease;
+}
+
+.footer .socialIcons a:hover {
+  color: #14b8a6;
+}
+
+.footer .footerBottom {
+  margin-top: 2rem; /* Reduced top margin */
+  font-size: 0.875rem;
+  color: #d1d5db;
+}
+
+.footer .footerBottom a {
+  color: #14b8a6;
+  text-decoration: none;
+}
+
+.footer .footerBottom a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .footer .container {
+    grid-template-columns: 1fr; /* Stack the columns on small screens */
+    gap: 1.5rem;
+  }
+}

@@ -8,6 +8,11 @@ import Collections from './components/Collections';
 import Profile from './components/Profile';
 import CollectionDetail from './components/CollectionDetail';
 import { useTheme } from './components/ThemeContext';
+import AboutUs from './components/AboutUs';
+// import Footer from './components/Footer';
+import ContactUs from './components/ContactUs';
+import TermsConditions from './components/Terms';
+import PrivacyPolicy from './components/Privacy';
 import "./App.css";
 
 function App() {
@@ -38,7 +43,7 @@ function App() {
         cover: book.volumeInfo.imageLinks?.thumbnail || 'https://via.placeholder.com/150',
         year: book.volumeInfo.publishedDate || "Unknown Year",
       }));
-      setBooks(fetchedBooks);
+      // setBooks(fetchedBooks);
       setFilteredBooks(fetchedBooks);
     } catch (error) {
       console.error("Error fetching books:", error);
@@ -55,12 +60,17 @@ function App() {
         <Navbar onSearch={fetchBooks} handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Home filteredBooks={filteredBooks} fetchBooks={fetchBooks} />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/terms" element={<TermsConditions />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/book/:id" element={<BookDetails />} />
           <Route path="/auth" element={<LoginSignupPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/collections" element={<Collections />} />
           <Route path="/collections/:collectionId" element={<CollectionDetail />} />
         </Routes>
+          {/* <Footer /> */}
       </div>
     </Router>
   );

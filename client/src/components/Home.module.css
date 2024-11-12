@@ -1,0 +1,30 @@
+.pagination-container {
+    margin-top: 60px; /* Space between the pagination and other content */
+    margin-bottom: 2rem; /* Extra space below the pagination */
+    display: flex;
+    justify-content: center;
+    /* justify-content: space-around; */
+  }
+  
+  .pagination button {
+    padding: 8px 16px;
+    margin: 0 5px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .pagination button:hover {
+    background-color: #16a085;
+  }
+  
+  .pagination span {
+    font-size: 14px;
+    color: #555;
+    margin: 0 10px;
+  }
+  

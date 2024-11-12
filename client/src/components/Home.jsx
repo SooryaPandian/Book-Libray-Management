@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import BookCard from './BookCard';
 import BookShelf from './BookShelf';
 import RecommendedBooksCarousel from './RecommendedBooksCarousel';
-
+import styles from './Home.module.css'; // Import the CSS module
+import Footer from './Footer';
 export const Home = ({ filteredBooks, fetchBooks }) => {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
@@ -46,15 +47,18 @@ export const Home = ({ filteredBooks, fetchBooks }) => {
       </div>
 
       {/* Pagination Controls */}
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={page === 1}>
-          Previous
-        </button>
-        <span>Page {page}</span>
-        <button onClick={handleNextPage}>
-          Next
-        </button>
+      <div className={styles.paginationContainer}>
+        <div className={styles.pagination}>
+          <button onClick={handlePreviousPage} disabled={page === 1}>
+            Previous
+          </button>
+          <span>Page {page}</span>
+          <button onClick={handleNextPage}>
+            Next
+          </button>
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

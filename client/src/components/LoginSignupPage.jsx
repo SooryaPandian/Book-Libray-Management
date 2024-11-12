@@ -68,7 +68,7 @@ function LoginSignup({ setIsLoggedIn }) {
       setErrorMessage("");
 
       // Navigate to the home or profile page
-      navigate("/profile"); // Adjust this path as needed
+      navigate(-1); // Adjust this path as neede
 
     } catch (error) {
       setErrorMessage(error.message || "An error occurred during login.");
