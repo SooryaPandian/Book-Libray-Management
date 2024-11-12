@@ -14,7 +14,7 @@ const Collections = () => {
     const fetchCollections = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:5000/api/collections`, {
+        const response = await fetch(`https://book-library-backend-y5fo.onrender.com/api/collections`, {
           headers: { "Authorization": `Bearer ${token}` },
         });
         const data = await response.json();
