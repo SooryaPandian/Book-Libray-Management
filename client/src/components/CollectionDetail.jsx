@@ -17,7 +17,7 @@ const CollectionDetail = () => {
     const fetchCollectionDetails = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:5000/api/collections/${collectionId}`, {
+        const response = await fetch(`https://book-library-backend-y5fo.onrender.com/${collectionId}`, {
           headers: { "Authorization": `Bearer ${token}` },
         });
 
@@ -69,7 +69,7 @@ const CollectionDetail = () => {
   const handleDeleteCollection = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/collections/${collectionId}`, {
+      const response = await fetch(`https://book-library-backend-y5fo.onrender.com/${collectionId}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -91,7 +91,7 @@ const CollectionDetail = () => {
   const handleRemoveBook = async (bookId) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/collections/${collectionId}/book/${bookId}`, {
+      const response = await fetch(`https://book-library-backend-y5fo.onrender.com/${collectionId}/book/${bookId}`, {
         method: "DELETE",
         headers: {
           "Authorization": `Bearer ${token}`,

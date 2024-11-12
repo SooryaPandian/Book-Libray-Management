@@ -34,7 +34,7 @@ const Collections = () => {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/collections/${collectionToDelete}`, {
+      const response = await fetch(`https://book-library-backend-y5fo.onrender.com/${collectionToDelete}`, {
         method: "DELETE",
         headers: { "Authorization": `Bearer ${token}` },
       });

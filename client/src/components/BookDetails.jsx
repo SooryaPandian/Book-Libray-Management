@@ -48,7 +48,7 @@ const BookDetails = () => {
     const fetchUserCollections = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch(`http://localhost:5000/api/collections`, {
+        const response = await fetch(`https://book-library-backend-y5fo.onrender.com/api/collections`, {
           headers: { "Authorization": `Bearer ${token}` },
         });
         const data = await response.json();
@@ -67,7 +67,7 @@ const BookDetails = () => {
       const token = localStorage.getItem("token");
       await Promise.all(
         selectedCollections.map(async (collectionId) => {
-          await fetch(`http://localhost:5000/api/collections/${collectionId}`, {
+          await fetch(`https://book-library-backend-y5fo.onrender.com/api/collections/${collectionId}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const BookDetails = () => {
   const handleCreateNewCollection = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/collections`, {
+      const response = await fetch(`https://book-library-backend-y5fo.onrender.com/api/collections`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -22,7 +22,7 @@ export const ProfileProvider = ({ children }) => {
     useEffect(() => {
       const fetchUserData = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/api/users/profile', {
+          const response = await axios.get('https://book-library-backend-y5fo.onrender.com/api/users/profile', {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
@@ -42,7 +42,7 @@ export const ProfileProvider = ({ children }) => {
   
     const handleEditProfile = async () => {
       try {
-        const response = await axios.put('http://localhost:5000/api/users/profile', {
+        const response = await axios.put('https://book-library-backend-y5fo.onrender.com/api/users/profile', {
           user_name: updatedUserName,
           email: updatedEmail,
           genres: updatedGenres.split(',').map((genre) => genre.trim()),
@@ -67,7 +67,7 @@ export const ProfileProvider = ({ children }) => {
     const handlePasswordUpdate = async () => {
       try {
         const response = await axios.put(
-          'http://localhost:5000/api/users/profile/password',
+          'https://book-library-backend-y5fo.onrender.com/api/users/profile/password',
           {
             currentPassword,
             newPassword,
@@ -91,7 +91,7 @@ export const ProfileProvider = ({ children }) => {
   
     const handleDeleteAccount = async () => {
       try {
-        const response = await axios.delete('http://localhost:5000/api/users/profile', {
+        const response = await axios.delete('https://book-library-backend-y5fo.onrender.com/api/users/profile', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

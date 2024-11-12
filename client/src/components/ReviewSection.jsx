@@ -8,7 +8,7 @@ const ReviewSection = ({ bookId, setAverageRating }) => {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/reviews/${bookId}`);
+      const response = await fetch(`https://book-library-backend-y5fo.onrender.com/reviews/${bookId}`);
       const data = await response.json();
       setReviews(data.reviews);
       setAverageRating(data.averageRating);
@@ -33,7 +33,7 @@ const ReviewSection = ({ bookId, setAverageRating }) => {
 
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://localhost:5000/api/reviews', {
+      const response = await fetch('https://book-library-backend-y5fo.onrender.com/reviews', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
