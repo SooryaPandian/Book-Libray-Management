@@ -1,58 +1,248 @@
+/* General Book Details Container */
 .book-details-container {
-  margin-top: 5%;
   display: flex;
-  align-items: center; /* Ensures that the image and text are vertically centered */
+  gap: 20px;
   padding: 20px;
+  margin-top: 5%;
+  justify-content: center;
+  align-items: flex-start; /* Aligns the content to the top */
 }
 
+.book-details-container.dark {
+  color: white !important;
+}
+
+.book-details-container.dark p,
+.book-details-container.dark h1,
+.book-details-container.dark h2,
+.book-details-container.dark h3,
+.book-details-container.dark h4,
+.book-details-container.dark h5,
+.book-details-container.dark h6,
+.book-details-container.dark span,
+.book-details-container.dark a,
+.book-details-container.dark strong {
+  color: white !important;
+}
+
+/* Book Cover */
 .book-cover-container {
-  flex: 1;
-  display: flex;
-  justify-content: center; /* Centers the image horizontally */
+  flex: 0.5; /* Allows the cover to fill half of the left side */
+  max-height: 80vh; /* Limit height to avoid overflow */
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center the content */
+  align-items: center; /* Center the content vertically */
+  overflow: hidden; /* Prevent scrolling */
 }
 
 .book-cover {
-  padding-top: 100px;
-  max-width: 450px; /* Adjust the width of the image */
-  height: auto;
+  width: 50vw; /* Makes the image responsive */
+  height: 100vh; /* Keeps the aspect ratio */
+  border-radius: 5px;
+}
+
+/* Book Info */
+.book-info-container {
+  flex: 1; /* Allows the info section to fill the right side */
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adds space between the elements */
+}
+
+.book-title-detail {
+  color: #007bff; /* Primary color for the title */
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0; /* Removes default margin */
+}
+
+.book-detail {
+  color: #333; /* Darker color for details */
+  font-size: 16px;
+}
+
+.averageRating {
+  font-weight: bold;
+  color: #4a90e2;
+  margin-bottom: 15px;
+}
+
+/* Collections List */
+.collections-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.collection-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.collection-item:hover {
+  background-color: #e8f0fe;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.book-info-container {
-  flex: 1;
-  padding-left: 30px;
-  text-align: left;
-  margin-top: 20px; /* Pushes the text slightly down */
+.collection-checkbox {
+  margin-right: 12px;
+  transform: scale(1.2);
+  accent-color: #4a90e2; /* Customize the color of the checkbox */
 }
 
-.book-info-container h2 {
-  margin-bottom: 10px;
-}
-
-.book-info-container p {
-  margin-bottom: 10px;
-  line-height: 1.6;
-}
-
-.download-links {
-  margin-top: 20px;
-}
-
-.download-links ul {
-  padding: 0;
-  list-style-type: none;
-}
-
-.download-links li {
-  margin-bottom: 8px;
-}
-
-.download-links a {
-  color: #1a73e8;
-  text-decoration: none;
+.collection-label {
   font-weight: bold;
+  font-size: 16px;
+  color: #333;
 }
 
-.download-links a:hover {
-  text-decoration: underline;
+/* Buttons */
+.add-collection-button,
+.create-new-collection-button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.add-collection-button:hover,
+.create-new-collection-button:hover {
+  background-color: #357abd;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 30px; /* Adjusted padding */
+  border-radius: 12px;
+  width: 600px; /* Increased width */
+  max-width: 90%;
+  position: relative;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h3 {
+  font-size: 1.8em; /* Larger title font */
+  margin-bottom: 20px;
+}
+
+.modal-content input,
+.modal-content textarea,
+.modal-content select,
+.modal-content button {
+  width: 100%;
+  font-size: 1em;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.modal-content textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.modal-content button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.modal-content button:hover {
+  background-color: #45a049;
+}
+
+/* Modal Close Button */
+.modal-close {
+  position: relative;
+  display: block;
+  margin: 20px auto 0;
+  background: transparent;
+  border: none;
+  font-size: 0.9em;
+  cursor: pointer;
+  color: #666;
+}
+
+/* Review Section Container */
+.review-section-container {
+  margin-top: 20px; /* Adds some spacing between the image and the reviews */
+  padding: 15px;
+  background-color: #f9f9f9; /* Light background for reviews */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%; /* Ensures it doesn't exceed the container width */
+}
+
+.review-section-container.dark {
+  background-color: #333;
+  color: white;
+}
+
+.review-item {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-item .review-author {
+  font-weight: bold;
+  font-size: 14px;
+  color: #007bff;
+}
+
+.review-item .review-author.dark {
+  color: #8ab4f8;
+}
+
+.review-item .review-text {
+  font-size: 14px;
+  color: #555;
+}
+
+.review-item .review-rating {
+  font-size: 16px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.review-item.dark .review-text,
+.review-item.dark .review-rating {
+  color: white;
 }

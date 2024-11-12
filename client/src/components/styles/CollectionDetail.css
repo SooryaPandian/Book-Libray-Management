@@ -1,0 +1,161 @@
+/* Container for the collection detail page */
+.collection-detail-page {
+  min-width: 1000px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin-top: 5%;
+  /* padding: 20px; */
+  box-sizing: border-box;
+}
+
+/* Header styling */
+.collection-detail-page h2 {
+  font-size: 32px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  text-align: center;
+  font-weight: bold;
+}
+
+/* Button styling */
+.collection-detail-page button {
+  display: inline-block;
+  padding: 10px 20px;
+  margin: 15px 0;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.collection-detail-page button:hover {
+  background-color: #2980b9;
+}
+
+/* Delete button styling */
+.delete-collection-btn {
+  background-color: #e74c3c;
+  margin-top: 30px;
+}
+
+.delete-collection-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Error message styling */
+.error-message {
+  color: #e74c3c;
+  font-weight: bold;
+  text-align: center;
+  font-size: 18px;
+}
+
+/* Books list container using grid for a responsive layout */
+.books-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Book card container with white background */
+.book-cards {
+  background-color: white;
+  background-position: center;
+  background-size: cover;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
+  box-sizing: border-box;
+  transition: transform 0.3s ease-in-out;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.book-cards:hover {
+  transform: scale(1.05) rotateX(10deg) rotateY(10deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+/* Book cover image */
+.book-cards img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.book-cards:hover img {
+  transform: scale(1.1);
+}
+
+/* Book title styling */
+.book-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 10px 0;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.8em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Book author styling */
+.book-author {
+  font-size: 16px;
+  color: #777;
+  margin: 5px 0;
+}
+
+/* Remove book button styling */
+.remove-book-btn {
+  background-color: #f39c12;
+  margin-top: 15px;
+  padding: 8px 16px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.remove-book-btn:hover {
+  background-color: #e67e22;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .collection-detail-page {
+    padding: 15px;
+  }
+
+  .books-list {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Adjust to show 2-3 books per row */
+  }
+
+  .book-cards {
+    padding: 15px;
+  }
+
+  .book-title {
+    font-size: 18px;
+  }
+
+  .book-author {
+    font-size: 14px;
+  }
+}

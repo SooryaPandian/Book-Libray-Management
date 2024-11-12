@@ -1,0 +1,168 @@
+/* Profile Container */
+.profile-container {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 90px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 220px;
+  height: calc(100vh - 90px);
+  padding: 20px;
+  background-color: #007bff;
+  border-top-right-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar button {
+  background: none;
+  color: #fff;
+  border: none;
+  text-align: left;
+  font-size: 16px;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+  border-radius: 4px;
+}
+
+.sidebar button:hover,
+.sidebar button:focus {
+  background-color: #0056b3;
+}
+
+/* Main Content Area */
+.main-content {
+  flex: 1;
+  margin-left: 75px; /* Adjusted to align with the sidebar width */
+  padding: 30px;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content-section {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.content-section h2,
+.content-section h3 {
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.edit-profile-button,
+.account-button {
+  padding: 10px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 15px;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.account-button.delete-account {
+  background-color: #dc3545;
+}
+
+.account-button:hover,
+.edit-profile-button:hover {
+  background-color: #0056b3;
+}
+
+.account-button.delete-account:hover {
+  background-color: #c82333;
+}
+
+/* Edit Profile Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.modal h3 {
+  color: #007bff;
+  margin-bottom: 20px;
+}
+
+.modal form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.modal form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.save-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.cancel-button {
+  background-color: #6c757d;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
+  transition: background 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-button:hover {
+  background-color: #5a6268;
+}
