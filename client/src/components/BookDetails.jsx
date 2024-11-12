@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from './Loading';
+import ReviewSection from './ReviewSection'
 import { useTheme } from '../components/ThemeContext'; // Import useTheme
 import './styles/BookDetails.css';
-import ReviewSection from './ReviewSection';
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -16,6 +16,7 @@ const BookDetails = () => {
   const [showNewCollectionForm, setShowNewCollectionForm] = useState(false);
   const [averageRating, setAverageRating] = useState(0);
   const navigate = useNavigate();
+  
   const { theme } = useTheme(); // Get the current theme from context
 
   useEffect(() => {
@@ -98,6 +99,7 @@ const BookDetails = () => {
       const newCollection = await response.json();
       setCollections([...collections, newCollection]);
       setShowNewCollectionForm(false);
+      setShowCollectionForm(false);
       alert("New collection created successfully!");
     } catch (error) {
       console.error("Error creating collection:", error);
@@ -116,43 +118,39 @@ const BookDetails = () => {
   if (!book) return <p>Book not found</p>;
 
   return (
-    <>
-      <div className={`book-details-container ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
-        <div className="book-cover-container">
-          <img src={book.cover} alt={book.title} style={{ height: '600px' }} />
-        </div>
-
-        <div className="book-info-container">
-          <h2 className="book-title-detail" style={{ color: theme === 'dark' ? '#FFF' : '#000' }}>{book.title}</h2>
-          <p className="averageRating"><strong>Average Rating:</strong> {averageRating}/5</p>
-          <p><strong>Author:</strong> {book.author}</p>
-          <p><strong>Genre:</strong> {book.genre}</p>
-          <p><strong>Languages:</strong> {book.languages}</p>
-          <p><strong>Publication Date:</strong> {book.publicationDate}</p>
-          <p><strong>Page Count:</strong> {book.pageCount}</p>
-          <p><strong>Publisher:</strong> {book.publisher}</p>
-          <p><strong>Description:</strong> <span dangerouslySetInnerHTML={{ __html: book.description }} /></p>
-
-          {book.previewLink && (
-            <a href={book.previewLink} target="_blank" rel="noopener noreferrer">View Book Preview</a>
-          )}
-
-          <button onClick={() => {
-            if (localStorage.getItem("token")) setShowCollectionForm((prev) => !prev);
-            else {
-              alert("You need to login to add this book to a collection");
-              navigate("/auth");
-            }
-          }}>
-            {showCollectionForm ? "Cancel" : "Add to Collection"}
-          </button>
-        </div>
+    <><div className={`book-details-container ${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
+      <div className="book-cover-container">
+        <img src={book.cover} alt={book.title} style={{ height: '600px' }} />
       </div>
+      <div className="book-info-container">
+        <h2 className="book-title-detail" style={{ color: theme === 'dark' ? '#FFF' : '#000' }}>{book.title}</h2>
+        <p className="averageRating"><strong>Average Rating:</strong> {averageRating}/5</p>
+        <p><strong>Author:</strong> {book.author}</p>
+        <p><strong>Genre:</strong> {book.genre}</p>
+        <p><strong>Languages:</strong> {book.languages}</p>
+        <p><strong>Publication Date:</strong> {book.publicationDate}</p>
+        <p><strong>Page Count:</strong> {book.pageCount}</p>
+        <p><strong>Publisher:</strong> {book.publisher}</p>
+        <p><strong>Description:</strong> <span dangerouslySetInnerHTML={{ __html: book.description }} /></p>
 
-      {showCollectionForm && (
-        <div className="modal-overlay" onClick={() => setShowCollectionForm(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Select Collections</h3>
+        {book.previewLink && (
+          <a href={book.previewLink} target="_blank" rel="noopener noreferrer">
+            View Book Preview
+          </a>
+        )}
+
+        <button onClick={() => {
+          if (localStorage.getItem("token")) setShowCollectionForm((prev) => !prev);
+          else {
+            alert("You need to login to add this book to a collection");
+            navigate("/auth");
+          }
+        }}>
+          {showCollectionForm ? "Cancel" : "Add to Collection"}
+        </button>
+
+        {showCollectionForm && (
+          <div className="collections-list">
             {collections.length > 0 ? (
               collections.map((collection) => (
                 <div
@@ -172,43 +170,43 @@ const BookDetails = () => {
             ) : (
               <p>No collections available. Create a new collection.</p>
             )}
-            <button onClick={handleAddBookToCollections}>Add to Selected Collections</button>
-            <button onClick={() => setShowNewCollectionForm(true)}>Create New Collection</button>
+            <button onClick={handleAddBookToCollections} className="add-collection-button">Add to Selected Collections</button>
+            <button onClick={() => setShowNewCollectionForm(true)} className="create-new-collection-button">Create New Collection</button>
           </div>
-        </div>
-      )}
+        )}
 
-      {showNewCollectionForm && (
-        <div className="modal-overlay" onClick={() => setShowNewCollectionForm(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Create New Collection</h3>
-            <input
-              type="text"
-              placeholder="Collection Name"
-              value={newCollectionForm.collection_name}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
-            />
-            <textarea
-              placeholder="Description"
-              value={newCollectionForm.description}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
-            />
-            <select
-              value={newCollectionForm.visibility}
-              onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
-            >
-              <option value="private">Private</option>
-              <option value="public">Public</option>
-            </select>
-            <button onClick={handleCreateNewCollection}>Create Collection</button>
-            <button className="modal-close" onClick={() => setShowNewCollectionForm(false)}>CLOSE</button>
+        {showNewCollectionForm && (
+          <div className="modal-overlay" onClick={() => setShowNewCollectionForm(false)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <h3>Create New Collection</h3>
+              <input
+                type="text"
+                placeholder="Collection Name"
+                value={newCollectionForm.collection_name}
+                onChange={(e) => setNewCollectionForm({ ...newCollectionForm, collection_name: e.target.value })}
+              />
+              <textarea
+                placeholder="Description"
+                value={newCollectionForm.description}
+                onChange={(e) => setNewCollectionForm({ ...newCollectionForm, description: e.target.value })}
+              />
+              <select
+                value={newCollectionForm.visibility}
+                onChange={(e) => setNewCollectionForm({ ...newCollectionForm, visibility: e.target.value })}
+              >
+                <option value="private">Private</option>
+                <option value="public">Public</option>
+              </select>
+              <button onClick={handleCreateNewCollection}>Create Collection</button>
+              <button className="modal-close" onClick={() => setShowNewCollectionForm(false)}>CLOSE</button>
+            </div>
           </div>
-        </div>
-      )}
-      <div className={`review-section-container ${theme === 'dark' ? 'dark' : ''}`}>
-        <ReviewSection bookId={book.id} setAverageRating={setAverageRating} />
+        )}
       </div>
-    </>
+    </div>
+    <div className={`review-section-container ${theme === 'dark' ? 'dark' : ''}`}>
+    <ReviewSection bookId={book.id} setAverageRating={setAverageRating} />
+  </div></>
   );
 };
 
