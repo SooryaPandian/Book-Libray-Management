@@ -42,7 +42,7 @@ const ContactUs = () => {
         <h2 className={styles.subheading}>Our Contact Information</h2>
         <p className={styles.contactDetail}>Email: <a href="mailto:shafeerahamedm.22cse@kongu.edu" className={styles.contactLink}>shafeerahamedm.22cse@kongu.edu</a></p>
         <p className={styles.contactDetail}>Phone: +91 98765 43210</p>
-        <p className={styles.contactDetail}>Address: 123 Book Street, Library City, Country</p>
+        <p className={styles.contactDetail}>Address: </p>
       </div>
 
       <form onSubmit={handleSubmit} className={styles.contactForm}>
