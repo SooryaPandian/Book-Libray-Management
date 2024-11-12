@@ -33,7 +33,7 @@
 }
 
 .collection-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 9px 8px 8px rgba(0, 0, 0, 0.1);
 }
 
 .collection-card h3 {
@@ -51,7 +51,12 @@
   transition: background-color 0.2s;
   margin-top: 10px;
 }
-
+.delete-collection-button{
+  background-color: red;
+  margin-top: 20px;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
 .view-books-button:hover {
   background-color: #357abd;
 }

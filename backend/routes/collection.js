@@ -2,6 +2,8 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const BookCollection = require("../models/BookCollection");
 const User = require("../models/User");
+const mongoose = require('mongoose');
+const { ObjectId } = mongoose.Types;
 
 const router = express.Router();
 
@@ -137,6 +139,57 @@ router.put("/:id", authenticate, async (req, res) => {
   } catch (error) {
     console.log("Error updating collection:", error.message);
     res.status(500).json({ message: "Error updating collection", error });
+  }
+});
+
+// Delete Collection
+router.delete("/:id", authenticate, async (req, res) => {
+  const { id } = req.params;
+
+  // Validate ObjectId format
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid collection ID" });
+  }
+
+  try {
+    const collection = await BookCollection.findByIdAndDelete(id);
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+    res.json({ message: "Collection deleted successfully!" });
+    console.log("Collection deleted successfully");
+  } catch (error) {
+    console.error("Error deleting collection:", error);
+    res.status(500).json({ message: "Error deleting collection", error });
+  }
+});
+
+// Remove Book from Collection
+router.delete("/:collectionId/book/:bookId", authenticate, async (req, res) => {
+  const { collectionId, bookId } = req.params;
+
+  try {
+    // Find the collection
+    const collection = await BookCollection.findById(collectionId);
+    if (!collection) {
+      return res.status(404).json({ message: "Collection not found" });
+    }
+
+    // Check if the user is the owner of the collection
+    if (collection.user_id.toString() !== req.userId) {
+      return res.status(403).json({ message: "You do not have permission to modify this collection" });
+    }
+
+    // Remove the book from the book_ids array
+    const updatedBookIds = collection.book_ids.filter(id => id !== bookId);
+    collection.book_ids = updatedBookIds;
+
+    // Save the updated collection
+    await collection.save();
+    res.json({ message: "Book removed from collection", collection });
+  } catch (error) {
+    console.error("Error removing book from collection:", error);
+    res.status(500).json({ message: "Error removing book from collection", error });
   }
 });
 

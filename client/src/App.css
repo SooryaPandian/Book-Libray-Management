@@ -21,29 +21,3 @@ body {
 h1, h2, h3, .book-title {
   font-family: 'Montserrat', sans-serif;
 }
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.pagination button {
-  padding: 8px 12px;
-  margin: 0 5px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  font-weight: bold;
-}
-
-.pagination button.active {
-  background-color: #0056b3;
-}
-
-.pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
