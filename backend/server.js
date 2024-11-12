@@ -25,9 +25,10 @@ mongoose.connect(process.env.MONGO_URI, {
 // CORS setup
 const cors = require('cors');
 const corsOptions = {
-  origin: "http://localhost:3000", // Replace with your frontend URL
+  origin: true, // Allows access from any origin
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 // Routes
