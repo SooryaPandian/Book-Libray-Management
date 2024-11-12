@@ -32,6 +32,7 @@ router.post("/", authenticate, async (req, res) => {
   console.log("Create Collection: Request received with data:", req.body);
   try {
     const { collection_name, description, book_ids, visibility } = req.body;
+    console.log("working :"+req.userId)
     const newCollection = new BookCollection({
       user_id: req.userId,
       collection_name,

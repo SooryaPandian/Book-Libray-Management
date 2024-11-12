@@ -1,0 +1,69 @@
+.reviewSection {
+    padding: 1em;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  .reviewItem {
+    margin-bottom: 1em;
+    padding: 0.5em;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .reviewAuthor {
+    font-weight: bold;
+  }
+  
+  .reviewText {
+    margin: 0.5em 0;
+  }
+  
+  .reviewRating {
+    color: #555;
+  }
+  
+  .addReviewForm {
+    margin-top: 1em;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  select {
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .submitButton {
+    padding: 0.5em 1em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .noReviews {
+    color: #888;
+  }
+  
+  .loginPrompt {
+    color: #d9534f;
+    font-weight: bold;
+  }
+  

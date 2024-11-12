@@ -1,10 +1,12 @@
+// server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const authRoutes = require("./routes/auth");
 const collectionRoutes = require("./routes/collection");
-const userRoutes = require('./routes/users'); // Ensure correct file path
+const reviewRoutes = require("./routes/review");
+const userRoutes = require('./routes/users');
 
 dotenv.config();
 
@@ -24,14 +26,15 @@ mongoose.connect(process.env.MONGO_URI, {
 const cors = require('cors');
 const corsOptions = {
   origin: "http://localhost:3000", // Replace with your frontend URL
-  credentials: true, // Allows cookies and Authorization headers
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/collections", collectionRoutes);
-app.use("/api/users", userRoutes); // Use `/api/users` to match frontend request
+app.use("/api/reviews", reviewRoutes); // New review routes
+app.use("/api/users", userRoutes); 
 
 // Start server
 const PORT = process.env.PORT || 5000;
